@@ -18,7 +18,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Einx</a>
+      <a class="navbar-brand" href="#">Ein</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -45,11 +45,77 @@
           </ul>
         </li>
       </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+    </div>
+  </div>
 </nav>
-<!-- Added javascript scripts -->
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<!-- Parallax One -->
+<div id="banner">
+  <div class="container">
+    <!-- Carousel -->
+    <div class="col-lg-8">
+      <div id="carousel">
+        <div class="slideshow no-padding">
+          <div id="carousel-shirts" class="carousel slide" data-ride="carousel" data-interval="3000">
+            <div class="carousel-inner" role="listbox">
+              <div class="item active ">
+                <img src="images\home\carousel\slide-1.png" alt="Carousel Photos">
+              </div>
+              <div class="item">
+                <img src="images\home\carousel\slide-2.jpg" alt="Carousel Photos">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="game-btn" class="col-xs-12 col-sm-12 col-md-4 col-lg-3 col-lg-offset-1">
+      <div id="new-game">
+        <h2 class="text-center">Start a new game!</h2>
+      </div>
+      <div id="join-game">
+        <h2 class="text-center">Join an existing game!</h2>
+      </div>
+    </div>
+  </div>
+    <div id="game-info" class="container">
+      <ul class="nav nav-tabs">
+        <li id="info-overview" role="presentation" class="active"><a href="#banner">Overview</a></li>
+        <li id="info-howtoplay" role="presentation"><a>How to play</a></li>
+        <li id="info-tips" role="presentation"><a>Tips and tricks</a></li>
+      </ul>
+      <!-- Tabs on landing page with hidden classes by default -->
+      <div id="tab-overview">
+        <h3>Ein</h3>
+        <p>
+          First of all will be great if you read Ein rules to better understand how to play Ein game
+The main objective of Ein game is to be the first player to have no cards. You will have to ensure that you clear the cards in your hand before your opponents do. The points you will earn will depend on the number of Ein cards held by your opponents. Determining the dealer will be the first step of the game. This is the point where each player picks the card. The player who gets the card with the highest number is the one that deals. After the cards are shuffled, each player is then dealt seven cards.
+
+The remaining cards are put face down to form the draw pile. To set the beginning of the discard pile, the top most card on this deck is turned over. The player that is to the left of the designated dealer is the first to play, if the card drawn is not an action card.
+
+The player has to match the top most card in the discard pile, when it’s his turn to play. The match can be based on number, symbol or color. For example, the player is allowed to put down a blue card or any color seven, if the card is a blue seven. It is also possible for a player to put down a wild card.
+
+The player of Ein game and Ein game 2 will have to take one card from the draw pile, if he does not have any matching cards in his or her possession. The player is allowed to play if the card drawn is playable. The turn ends, and the game proceeds in a clockwise fashion round the playing table, if the card picked cannot be played.
+
+The player draws a card from the draw pile, in the event he chooses not to play a card from their hand. The card can be put down in that same turn if the card drawn is playable, but the player is not allowed to put down a card in the hand they hold after making a draw from the draw pile
+        </p>
+      </div>
+      <div id="tab-howtoplay" class="hidden">
+        <h3>Rules:</h3>
+        <ul>
+          <li>Each player will be given seven cards at the start of the game.</li>
+          <li>The game will start with a card on the table for all to see.</li>
+          <li>The round will start with the player left of the dealer.</li>
+          <li>When it is your turn you will need to put a card on the top of the play deck that is of the same color or number on the card</li>
+      </div>
+      <div id="tab-tips" class="hidden">
+        <p>FILLER AREA</p>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- Added javascript scripts -->
+  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="js/ein.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>
 </html>

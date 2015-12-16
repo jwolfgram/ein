@@ -1,0 +1,35 @@
+@import url(https://fonts.googleapis.com/css?family=Alegreya+Sans);
+
+* {
+  font-family: 'Alegreya Sans', sans-serif;
+}
+
+#banner {
+  background-size: cover;
+  background-image: url(../images/home/parallax-one.png);
+  background-attachment: fixed;
+  height:100%;
+}
+
+#game-btn > div {
+  padding: 25px;
+  color: #FFFFFF;
+}
+
+.button-hover {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(96,96,96,.25);
+}
+
+#game-info {
+  margin-top: 30px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+#game-info > ul > li > a {
+  font-weight: bold;
+}
+
+#tab-overview {
+  margin-top: 10px;
+}
