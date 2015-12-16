@@ -4,9 +4,16 @@
   font-family: 'Alegreya Sans', sans-serif;
 }
 
-#banner {
+#parallax-one {
   background-size: cover;
   background-image: url(../images/home/parallax-one.png);
+  background-attachment: fixed;
+  height:100%;
+}
+
+#parallax-two {
+  background-size: cover;
+  background-image: url(../images/home/parallax-two.jpg);
   background-attachment: fixed;
   height:100%;
 }
