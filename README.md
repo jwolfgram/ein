@@ -1,8 +1,6 @@
-This is an interactive card game that allows players to use their own computer
-or mobile device to log into a game session and play the game remotely or cast the tabletop to a Chromecast for all players to see!
-
-
--Rules page
--Individual player game pages
--Geolocate players scores, with fun facts like. 'Looks like Canada has the best players!'
--Login will have players personal score board and wins vs looses
+**It's a site for small parties who want to play a game of Uno on their Chromecast.**
+a. The user can play Card Games
+b. The user can Cast the 'public' tabletop of the game to Chromecast / Roku / Atv
+c. The user can have their 'cards' displayed on their phones/computer.
+d. The user can see previous scores for users.
+e. The user can invite other players to play.

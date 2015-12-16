@@ -1,0 +1,22 @@
+{
+  "name": "ein-game",
+  "version": "1.0.0",
+  "description": "This is an interactive card game thaqt allows players to use their own computer or mobile device to log into a game session and play the game remotly or cast the tabletop to a chromecast for all players to see!",
+  "main": "http.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwolfgram/ein-game.git"
+  },
+  "author": "Joe Wolfgram",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jwolfgram/ein-game/issues"
+  },
+  "homepage": "https://github.com/jwolfgram/ein-game#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}

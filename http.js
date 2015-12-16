@@ -6,8 +6,7 @@ request = require('request'),
 bodyParser = require('body-parser');
 
 app.use(function(req, res, next) {
-  console.log('User requested url: ' + req.url);
-  document.body.appendChild(div); //We will log all requests to the server
+  console.log('User requested url: ' + req.url); //We will log all requests to the server
   next();
 });
 
