@@ -3,21 +3,28 @@
 * {
   font-family: 'Alegreya Sans', sans-serif;
 }
-
 #parallax-one {
   background-size: cover;
   background-image: url(../images/home/parallax-one.png);
   background-attachment: fixed;
-  height:100%;
+  background-position: center center;
+  box-shadow: inset 0 0 1em #111;
+  height: 100vh;
 }
 
 #parallax-two {
   background-size: cover;
   background-image: url(../images/home/parallax-two.jpg);
   background-attachment: fixed;
-  height:100%;
+  background-position: center center;
+  box-shadow: inset 0 0 1em #111;
+  height: 100vh;
 }
 
+
+#top {
+  padding-top: 60px;
+}
 #game-btn > div {
   padding: 25px;
   color: #FFFFFF;
@@ -39,4 +46,10 @@
 
 #tab-overview {
   margin-top: 10px;
+}
+
+#map {
+  width: 500px;
+  height:400px;
+  background-color: #CCC;
 }

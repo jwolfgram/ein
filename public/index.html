@@ -4,11 +4,11 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css">
   <title>Ein - Online!</title>
-
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSU16C1y5gPzlymicqKYfDgtLXYM0zqTM&callback=initialize"></script>
 </head>
 <body>
   <!-- This is the Navigation Bar fixed to the top of screen -->
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -50,7 +50,7 @@
 </nav>
 <!-- Parallax One -->
 <div id="parallax-one">
-  <div class="container">
+  <div id="top" class="container">
     <!-- Carousel -->
     <div class="col-lg-8">
       <div id="carousel">
@@ -117,15 +117,19 @@ The player draws a card from the draw pile, in the event he chooses not to play 
   <div class="container">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
       <h2>Top Scores!</h2>
+      <br>
+      <p>hi</p>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-      <h2>Google Maps</h2>
+      <h2>Here are all the players on the map!</h2>
+      <div id="map">
+      </div>
     </div>
   </div>
 </div>
   <!-- Added javascript scripts -->
-  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="js/ein.js"></script>
+  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>
 </html>

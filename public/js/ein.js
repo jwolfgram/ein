@@ -1,4 +1,5 @@
 var newBtn = document.getElementById('new-game'),
+map,
 joinBtn = document.getElementById('join-game'),
 overview = document.getElementById('info-overview'),
 howPlay = document.getElementById('info-howtoplay'),
@@ -15,14 +16,6 @@ newBtn.addEventListener('mouseover', function(){
 joinBtn.addEventListener('click', function(){
   joinBtn.setAttribute('class', 'button-hover');
 }, false);
-
-
-
-
-
-
-
-
 
 //Overview, How to Play, Tips selector
 overview.addEventListener('click', function(){
@@ -43,3 +36,14 @@ tips.addEventListener('click', function(){
   tabOverview.setAttribute('class', 'hidden');
 }, false);
 
+//Google Maps
+function initialize() {
+  var mapCanvas = document.getElementById('map');
+  var mapOptions = {
+    center: new google.maps.LatLng(44.5403, -78.5463),
+    zoom: 8,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  var map = new google.maps.Map(mapCanvas, mapOptions);
+  }
+  google.maps.event.addDomListener(window, 'load', initialize);
