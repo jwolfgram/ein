@@ -40,9 +40,10 @@ tips.addEventListener('click', function(){
 function initialize() {
   var mapCanvas = document.getElementById('map');
   var mapOptions = {
-    center: new google.maps.LatLng(44.5403, -78.5463),
-    zoom: 8,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    center: new google.maps.LatLng(33.6839, -117.7946),
+    zoom: 10,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    scrollwheel: false
   };
   var map = new google.maps.Map(mapCanvas, mapOptions);
   }
