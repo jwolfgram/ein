@@ -11,12 +11,12 @@ var playCard = {
     id: 1,
     cards: [
       {number: '1', color: 'blue'},
-      {number: '2', color: 'red'},
-      {number: '3', color: 'yellow'},
-      {number: '4', color: 'green'},
-      {number: '', color: 'drawfour'},
-      {number: '6', color: ''},
-      {number: '7', color: ''}
+      {number: '1', color: 'red'},
+      {number: '1', color: 'yellow'},
+      {number: '1', color: 'green'},
+      {number: '1', color: 'green'},
+      {number: '1', color: 'yellow'},
+      {number: '2', color: 'blue'}
     ]
   },
   {

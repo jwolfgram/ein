@@ -22,8 +22,61 @@
 }
 
 #player-hand {
-
 }
 /*div {
   border: 5px solid black;
 }*/
+/* Classes for different cards in hand of the player screen */
+.red-card {
+  font-weight: 900;
+  font-size: 48px;
+  padding-top: 55px;
+  text-align: center;
+  background-image: url(../images/game/red-card.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 175px;
+  width: 125px;
+}
+
+.green-card {
+  border-radius: 7px 7px 7px 7px;
+  border: 20px solid #FFFF;
+  font-weight: 900;
+  font-size: 48px;
+  padding-top: 55px;
+  text-align: center;
+  background-image: url(../images/game/green-card.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 175px;
+  width: 125px;
+}
+
+.blue-card {
+  font-weight: 900;
+  font-size: 48px;
+  padding-top: 55px;
+  text-align: center;
+  background-image: url(../images/game/blue-card.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 175px;
+  width: 125px;
+}
+
+.yellow-card {
+  font-weight: 900;
+  font-size: 48px;
+  padding-top: 55px;
+  text-align: center;
+  background-image: url(../images/game/yellow-card.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 175px;
+  width: 125px;
+}
