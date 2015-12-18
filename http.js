@@ -5,7 +5,7 @@ port = '8080',
 bodyParser = require('body-parser');
 
 var playCard = {
-  table: [{number:'1', color:'red'}],
+  table: [{number:'2', color:'blue'}],
   players: [
   {
     id: 1,
@@ -23,11 +23,6 @@ var playCard = {
         id: 2,
     cards: [
       {number: '', color: ''},
-      {number: '', color: ''},
-      {number: '', color: ''},
-      {number: '', color: ''},
-      {number: '', color: ''},
-      {number: '', color: ''},
       {number: '', color: ''}
     ]
   },
@@ -36,19 +31,12 @@ var playCard = {
     cards: [
       {number: '', color: ''},
       {number: '', color: ''},
-      {number: '', color: ''},
-      {number: '', color: ''},
-      {number: '', color: ''},
-      {number: '', color: ''},
       {number: '', color: ''}
     ]
   },
   {
     id: 4,
     cards: [
-      {number: '', color: ''},
-      {number: '', color: ''},
-      {number: '', color: ''},
       {number: '', color: ''},
       {number: '', color: ''},
       {number: '', color: ''},

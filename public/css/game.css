@@ -34,10 +34,10 @@
   padding: 0px 5% 0px 5%;
   height: 200px;
 }
-/*div {
-  border: 5px solid black;
-}*/
-/* Classes for different cards in hand of the player screen */
+
+#playing-card {
+  margin-top: 50px;
+}
 .red-card {
   margin: 0 auto;
   font-weight: 900;
