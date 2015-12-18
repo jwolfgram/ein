@@ -1,0 +1,29 @@
+.my-cards {
+  border-radius: 2px;
+  height: 100px;
+}
+
+.cards {
+  text-align: center;
+  padding-top: 80px;
+  border-radius: 7px;
+  height: 175px;
+  width: 125px;
+  background-image: url(../images/game/back-card.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+#table-top {
+  background-image: url(../images/game/table-top.png);
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  margin: 0 auto;
+}
+
+#player-hand {
+
+}
+/*div {
+  border: 5px solid black;
+}*/
