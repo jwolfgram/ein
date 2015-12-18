@@ -6,28 +6,67 @@
   <title>Ein - Like Uno!</title>
 </head>
 <body>
+  <!-- This is the Navigation Bar fixed to the top of screen -->
+  <div id="nav">
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Ein</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#(link to the ID for top)">Home <span class="sr-only">(current)</span></a></li>
+            <li><a href="#parallax-two">Scores</a></li>
+            <li class="dropdown">
+              <a id="menu-game" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New Game <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Create a new game!</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Join a Game!</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Account <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Login</a></li>
+                <li><a href="#">Signup</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <!-- Here is the table / game board -->
   <div id="table-top">
     <div class="container">
       <div class="row">
-        <div id="player-one" class="col-md-offset-4 col-md-4">
-          <div class="cards center-block">
+        <div class="col-md-offset-4 col-md-4">
+          <div id="player-two" class="cards center-block">
           </div>
         </div>
       </div>
       <div class="row">
-        <div id="player-two" class="col-md-1">
-          <div class="cards center-block">
+        <div class="col-md-1">
+          <div id="player-three" class="cards center-block">
           </div>
         </div>
-        <div id="playing-card" class="col-md-4">
+        <div class="col-md-offset-4 col-md-2">
+          <div id="playing-card" class="cards center-block">
+          </div>
         </div>
-        <div id="playing-card" class="col-md-2">
-          card pile
-        </div>
-        <div id="playing-card" class="col-md-4">
-        </div>
-        <div id="player-three" class="col-md-1">
-          <div class="cards center-block">
+        <div class="col-md-offset-4 col-md-1">
+          <div id="player-four" class="cards center-block">
           </div>
         </div>
       </div>
@@ -36,9 +75,10 @@
         </div>
       </div>
     </div>
+    <div id="player-hand">
+    </div>
   </div>
-  <div id="player-hand">
-  </div>
+
   <!--Scripts -->
   <script src="js/game.js"></script>
   <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>

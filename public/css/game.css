@@ -14,20 +14,32 @@
   background-repeat: no-repeat;
 }
 
+#nav {
+  margin-bottom: 50px;
+}
+
 #table-top {
-  background-image: url(../images/game/table-top.png);
-  background-size: 100% auto;
+  height: 100vh;
+  background-position: center center;
+  background-image: url(../images/game/table-top.jpg);
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   margin: 0 auto;
 }
 
 #player-hand {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  padding: 0px 5% 0px 5%;
+  height: 200px;
 }
 /*div {
   border: 5px solid black;
 }*/
 /* Classes for different cards in hand of the player screen */
 .red-card {
+  margin: 0 auto;
   font-weight: 900;
   font-size: 48px;
   padding-top: 55px;
@@ -41,6 +53,7 @@
 }
 
 .green-card {
+  margin: 0 auto;
   border-radius: 7px 7px 7px 7px;
   border: 20px solid #FFFF;
   font-weight: 900;
@@ -56,6 +69,7 @@
 }
 
 .blue-card {
+  margin: 0 auto;
   font-weight: 900;
   font-size: 48px;
   padding-top: 55px;
@@ -69,6 +83,7 @@
 }
 
 .yellow-card {
+  margin: 0 auto;
   font-weight: 900;
   font-size: 48px;
   padding-top: 55px;
