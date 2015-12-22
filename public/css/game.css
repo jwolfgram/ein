@@ -25,24 +25,36 @@
   background-size: 100% 100%;
   background-repeat: no-repeat;
   margin: 0 auto;
+  z-index: 0;
 }
 
 #player-hand {
   position: absolute;
-  bottom: 40px;
+  bottom: 15px;
   width: 100%;
   padding: 0px 5% 0px 5%;
-  height: 200px;
+  height: 150px;
+}
+
+#play-btn {
+  position: absolute;
+  margin: 0px;
+  bottom: 10px;
+  right: 10px;
+  height: 100px;
 }
 
 #playing-card {
   margin-top: 50px;
 }
+
+.red-card > p, .green-card > p, .blue-card > p, .yellow-card > p {
+  padding-top: 40%;
+}
+
 .red-card {
-  margin: 0 auto;
   font-weight: 900;
   font-size: 48px;
-  padding-top: 55px;
   text-align: center;
   background-image: url(../images/game/red-card.png);
   background-size: contain;
@@ -53,12 +65,10 @@
 }
 
 .green-card {
-  margin: 0 auto;
   border-radius: 7px 7px 7px 7px;
   border: 20px solid #FFFF;
   font-weight: 900;
   font-size: 48px;
-  padding-top: 55px;
   text-align: center;
   background-image: url(../images/game/green-card.png);
   background-size: contain;
@@ -69,10 +79,8 @@
 }
 
 .blue-card {
-  margin: 0 auto;
   font-weight: 900;
   font-size: 48px;
-  padding-top: 55px;
   text-align: center;
   background-image: url(../images/game/blue-card.png);
   background-size: contain;
@@ -83,10 +91,8 @@
 }
 
 .yellow-card {
-  margin: 0 auto;
   font-weight: 900;
   font-size: 48px;
-  padding-top: 55px;
   text-align: center;
   background-image: url(../images/game/yellow-card.png);
   background-size: contain;
@@ -94,4 +100,16 @@
   display: inline-block;
   height: 175px;
   width: 125px;
+}
+
+.no-select {
+  position: absolute;
+  width: 125px;
+  height: 175px;
+  z-index: 2;
+}
+
+::selection {
+    color: rgba(0,0,0,0);
+    background: rgba(255,255,255,0);
 }
