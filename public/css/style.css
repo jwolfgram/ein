@@ -4,14 +4,18 @@
   font-family: 'Alegreya Sans', sans-serif;
   font-size: 18px;
 }
+/*Google Chrome scroll bar hidden
+::-webkit-scrollbar {
+    display: none;
+    }*/
+
 #parallax-one {
-  padding-top: 60px;
-  background-size: cover;
+  background-size: cover, contain;
   background-image: url(../images/home/parallax-one.png);
   background-attachment: fixed;
   background-position: center center;
   box-shadow: inset 0 0 1em #111;
-  height: 95vh;
+  padding-bottom: 50px;
 }
 
 #parallax-two {
@@ -20,40 +24,56 @@
   background-attachment: fixed;
   background-position: center center;
   box-shadow: inset 0 0 1em #111;
-  height: 100vh;
+  padding-bottom: 50px;
 }
 
 #parallax-three {
-  padding-top: 50px;
   background-size: cover;
   background-image: url(../images/home/parallax-three.jpg);
   background-attachment: fixed;
   background-position: center center;
   box-shadow: inset 0 0 1em #111;
-  /*height: 100vh;*/
 }
 
-#game-btn > div {
-  padding: 25px;
-  color: #FFFFFF;
+#game-btn {
+  height: 410px;
 }
 
-.button-hover {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(96,96,96,.25);
+#game-btn > a > img {
+  vertical-align: middle;
+  text-align: center;
+  margin: 0 auto;
+  position: absolute;
+  top: 45%;
 }
 
 #game-info {
   margin-top: 30px;
   background-color: rgba(255, 255, 255, .5);
+  padding: 0px;
+  border-radius: 5px;
+}
+
+#game-info > div {
+  padding: 0px 5px 5px 5px;
 }
 
 #game-info > ul > li > a {
   font-weight: bold;
 }
 
+#carousel {
+  height: 410px;
+  border-radius: 5px;
+}
+
+#carousel > div > div > div > div > img {
+  border-radius: 5px;
+}
+
 #tab-overview {
   margin-top: 10px;
+
 }
 
 #map {
@@ -65,4 +85,8 @@
 #footer {
   height: 200px;
   background-color: rgba(255, 255, 255, .5);
+}
+
+#top {
+    padding-top: 70px;
 }

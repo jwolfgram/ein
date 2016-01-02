@@ -8,11 +8,6 @@ tabOverview = document.getElementById('tab-overview'),
 tabhowPlay = document.getElementById('tab-howtoplay'),
 tabTips = document.getElementById('tab-tips');
 
-newBtn.addEventListener('mouseover', function(){
-  newBtn.setAttribute('class', 'button-hover');
-  console.log('PASSED');
-}, false);
-
 joinBtn.addEventListener('click', function(){
   joinBtn.setAttribute('class', 'button-hover');
 }, false);
@@ -38,6 +33,11 @@ tips.addEventListener('click', function(){
 
 //Google Maps
 function initialize() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(initialize);
+  } else {
+    alert("You don't support this");
+  }
   var mapCanvas = document.getElementById('map');
   var mapOptions = {
     center: new google.maps.LatLng(33.6839, -117.7946),
@@ -46,5 +46,10 @@ function initialize() {
     scrollwheel: false
   };
   var map = new google.maps.Map(mapCanvas, mapOptions);
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
   }
   google.maps.event.addDomListener(window, 'load', initialize);

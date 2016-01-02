@@ -1,85 +1,109 @@
 var xhr = new XMLHttpRequest(),
 playerHand = document.getElementById('player-hand'),
+submitBtn = document.getElementById('play-btn'),
+twoCard = document.getElementById('player-two'),
+threeCard = document.getElementById('player-three'),
+fourCard = document.getElementById('player-four'),
+tableCard = document.getElementById('playing-card'),
 game,
-player  = 0;
+player;
 
-function updateEins() {
-  console.log('Fetching json from server!');
-  xhr.open('GET', '/game-state', true);
+function getPlayer() {
+  xhr.open('GET', '/game-state/', false);
+  console.log('xhr status: ' + xhr.status);
   xhr.send();
-  xhr.onload = function() {
-    game = JSON.parse(xhr.response);
-    cardsHand(player); //Get players hand of cards.
-    enemyCard(player);
-    tableCard(); //Get count for other players cards.
-  };
+  console.log('xhr status: (before player defined) ' + xhr.status);
+  player = xhr.response;
+  console.log('xhr status: ' + xhr.status);
+  console.log('Player number from server: ' + xhr.response);
+  //getGame();
 }
 
-updateEins();
+Promise.all([getPlayer()]);
+//getPlayer();
+getGame();
 
-function cardsHand(playerID) {
-  while (playerHand.hasChildNodes()) { //Check to see if we need to clean the table and reset....
-    playerHand.removeChild(playerHand.lastChild);
-  }
-  var cardCount = game.players[playerID].cards.length;
-  console.log('Cards counted: ' + cardCount);
-  for (var i = 0; i < cardCount; i++) {
-    var makeCard = document.createElement('div'); //Make card div for webpage
-    var cardColor = game.players[playerID].cards[i].color;
-    makeCard.setAttribute("class", cardColor + "-card"); //add class to this for the colors.
-    var cardNum = document.createElement('p'); //Creates p tag for div with card number
-    var pText = document.createTextNode(game.players[playerID].cards[i].number); //This is the number of the Ein card
-    cardNum.appendChild(pText); //getting text for p tag
-    makeCard.appendChild(cardNum); //appending p tag to card div
-    playerHand.appendChild(makeCard); //Placing card in the players hand
-  }
-}
-
-function enemyCard(playerID) {
+function getGame() {
   var cardsTwo,
   cardsThree,
   cardsFour,
-  twoCard,
-  threeCard,
-  fourCard,
-  twoDiv,
+  twoDiv = document.createElement('p'),
   twoText,
-  threeDiv,
+  threeDiv = document.createElement('p'),
   threeText,
   fourDiv,
-  fourText;
+  fourText,
+  path = '/game-state/' + player;
 
-  twoCard = document.getElementById('player-two');
-  threeCard = document.getElementById('player-three');
-  fourCard = document.getElementById('player-four');
+  console.log('This is path: ' + path);
+  xhr.open('GET', path, true);
+  console.log('xhr status: ' + xhr.status);
+  xhr.send();
+  console.log('xhr status: ' + xhr.status);
+  xhr.onload = function() {
+    console.log('xhr status: ' + xhr.status);
+    game = JSON.parse(xhr.response);
+    console.log('xhr status: ' + xhr.status);
+    drawGame();
 
-  while (twoCard.hasChildNodes() || threeCard.hasChildNodes() || fourCard.hasChildNodes()) { //Check to see if we need to clean the table and reset....
+  };
+}
+
+function drawGame() {
+  //Wipe 'table' of all Player stats and cards.
+  while (playerHand.hasChildNodes()) { //Check to see if we need to clean the table and reset....
+    playerHand.removeChild(playerHand.lastChild);
+  }
+  if (twoCard.hasChildNodes()) {
     twoCard.removeChild(twoCard.lastChild);
+  }
+  if (threeCard.hasChildNodes()) {
     threeCard.removeChild(threeCard.lastChild);
+  }
+  if (fourCard.hasChildNodes()) {
     fourCard.removeChild(fourCard.lastChild);
   }
+  if (tableCard.hasChildNodes()) {
+    tableCard.removeChild(tableCard.lastChild);
+  }
+  //Get players hand of cards.
+  cardCount = game.players[player].cards.length;
+  console.log('Cards counted: ' + cardCount);
+  for (var i = 0; i < cardCount; i++) {
+    var makeCard = document.createElement('div'); //Make card div for webpage
+    var cardColor = game.players[player].cards[i].color;
+    makeCard.setAttribute("class", cardColor + "-card"); //add class to this for the colors.
+    var cardNum = document.createElement('p'); //Creates p tag for div with card number
+    var pText = document.createTextNode(game.players[player].cards[i].number); //This is the number of the Ein card
+    cardNum.appendChild(pText); //getting text for p tag <p>1</p>
+    makeCard.appendChild(cardNum); //appending p tag to card div <div><p>1</p></div>
+    playerHand.appendChild(makeCard); //Placing card in the players hand
+  }
 
-  switch (playerID) {
-    case 0: //Select PLayer 1
+  twoDiv = document.createElement('p');
+  twoCard.appendChild(twoDiv);
+
+  threeDiv = document.createElement('p');
+  threeCard.appendChild(threeDiv);
+
+  fourDiv = document.createElement('p');
+  fourCard.appendChild(fourDiv);
+  //Write number of remaining cards on ememies cards.
+  switch (player) {
+    case "0": //Select PLayer 1
     cardsTwo = game.players[1].cards.length;
     cardsThree = game.players[2].cards.length;
     cardsFour = game.players[3].cards.length;
     console.log('Player hand: ' + game.players[0].cards.length);
 
-    twoDiv = document.createElement('p');
     twoText = document.createTextNode('Cards: ' + game.players[1].cards.length);
     twoDiv.appendChild(twoText);
-    twoCard.appendChild(twoDiv);
 
-    threeDiv = document.createElement('p');
     threeText = document.createTextNode('Cards: ' + game.players[2].cards.length);
     threeDiv.appendChild(threeText);
-    threeCard.appendChild(threeDiv);
 
-    fourDiv = document.createElement('p');
     fourText = document.createTextNode('Cards: ' + game.players[3].cards.length);
     fourDiv.appendChild(fourText);
-    fourCard.appendChild(fourDiv);
     break;
 
     case 1: //Select PLayer 2
@@ -88,20 +112,14 @@ function enemyCard(playerID) {
     cardsFour = game.players[3].cards.length;
     console.log('Player hand: ' + game.players[1].cards.length);
 
-    twoDiv = document.createElement('p');
     twoText = document.createTextNode('Cards: ' + game.players[1].cards.length);
     twoDiv.appendChild(twoText);
-    twoCard.appendChild(twoDiv);
 
-    threeDiv = document.createElement('p');
     threeText = document.createTextNode('Cards: ' + game.players[2].cards.length);
     threeDiv.appendChild(threeText);
-    threeCard.appendChild(threeDiv);
 
-    fourDiv = document.createElement('p');
     fourText = document.createTextNode('Cards: ' + game.players[3].cards.length);
     fourDiv.appendChild(fourText);
-    fourCard.appendChild(fourDiv);
     break;
 
     case 2: //Select PLayer 3
@@ -110,20 +128,14 @@ function enemyCard(playerID) {
     cardsFour = game.players[3].cards.length;
     console.log('Player hand: ' + game.players[2].cards.length);
 
-    twoDiv = document.createElement('p');
     twoText = document.createTextNode('Cards: ' + game.players[1].cards.length);
     twoDiv.appendChild(twoText);
-    twoCard.appendChild(twoDiv);
 
-    threeDiv = document.createElement('p');
     threeText = document.createTextNode('Cards: ' + game.players[2].cards.length);
     threeDiv.appendChild(threeText);
-    threeCard.appendChild(threeDiv);
 
-    fourDiv = document.createElement('p');
     fourText = document.createTextNode('Cards: ' + game.players[3].cards.length);
     fourDiv.appendChild(fourText);
-    fourCard.appendChild(fourDiv);
     break;
 
     case 3:  //Select PLayer 4
@@ -132,44 +144,59 @@ function enemyCard(playerID) {
     cardsFour = game.players[2].cards.length;
     console.log('Player hand: ' + game.players[3].cards.length);
 
-    twoDiv = document.createElement('p');
     twoText = document.createTextNode('Cards: ' + game.players[1].cards.length);
     twoDiv.appendChild(twoText);
-    twoCard.appendChild(twoDiv);
 
-    threeDiv = document.createElement('p');
     threeText = document.createTextNode('Cards: ' + game.players[2].cards.length);
     threeDiv.appendChild(threeText);
-    threeCard.appendChild(threeDiv);
 
-    fourDiv = document.createElement('p');
     fourText = document.createTextNode('Cards: ' + game.players[3].cards.length);
     fourDiv.appendChild(fourText);
-    fourCard.appendChild(fourDiv);
     break;
 
     default:
     console.log('There was an error with the switch statement in game.js the function enemyCard(): ' + player);
     break;
   }
+  //Draw playing card on table.
+  tableCard.setAttribute("class", game.table[0].color + "-card center-block");
+  var tableNum = document.createElement('p');
+  var tableText = document.createTextNode(game.table[0].number);
+  tableNum.appendChild(tableText);
+  tableCard.appendChild(tableNum);
 }
 
-function tableCard() {
-  var tableCard = document.getElementById('playing-card');
-  while (tableCard.hasChildNodes()) { //Check to see if we need to clean the table and reset....
-    tableCard.removeChild(tableCard.lastChild);
+function sendTurn() {
+  console.log('Sending Card: ' + cardSelect);
+  var number = cardSelect.textContent;
+  var turnPlayed;
+  if (cardSelect.classList.contains('blue-card')) {
+    turnPlayed = [number, "blue", player];
   }
-  console.log(game.table[0].number); // Console.log
-  var number = game.table[0].number;
-  var color = game.table[0].color;
-  tableCard.setAttribute("class", color + "-card center-block");
-  var cardNum = document.createElement('p');
-  var pText = document.createTextNode(game.table[0].number);
-  cardNum.appendChild(pText);
-  tableCard.appendChild(cardNum);
+  if (cardSelect.classList.contains('yellow-card')) {
+    turnPlayed = [number, "yellow", player];
+  }
+  if (cardSelect.classList.contains('green-card')) {
+    turnPlayed = [number, "green", player];
+  }
+  if (cardSelect.classList.contains('red-card')) {
+    turnPlayed = [number, "red", player];
+  }
+  turnPlayed = JSON.stringify(turnPlayed);
+  console.log(turnPlayed + 'Right before shit goes down...');
+  console.log('xhr status: ' + xhr.status);
+  xhr.open('POST', '/game-turn', true);
+  console.log('xhr status: ' + xhr.status);
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  console.log('xhr status:content-type ' + xhr.status);
+  xhr.send(turnPlayed);
+  console.log('xhr status:last ' + xhr.status);
+  if (xhr.readyState == 4) {
+    console.log('xhr status (onload function): ' + xhr.status);
+    setTable(); //redraw table
+    console.log('xhr status final?: ' + xhr.status);
+  }
 }
-
-playerHand.addEventListener("click", selectCard, false);
 
 function selectCard(e) {
   if (e.target !== e.currentTarget) {
@@ -183,9 +210,9 @@ function selectCard(e) {
   console.log('Found card to play and selected!' + cardSelect);
   e.stopPropagation();
 }
-//Play button submission
 
-submitBtn = document.getElementById('play-btn');
+playerHand.addEventListener("click", selectCard, false); //Adding event listener for 'Playing Card'
+
 
 submitBtn.addEventListener('click', function(){
   console.log('Got it.play-card' + cardSelect);
@@ -206,9 +233,6 @@ submitBtn.addEventListener('click', function(){
     turnPlayed = [number, "red", player];
   }
   turnPlayed = JSON.stringify(turnPlayed);
-  console.log(turnPlayed + 'Right before shit goes down...');
-  xhr.open('POST', '/game-turn', true);
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhr.send(turnPlayed);
-  //updateEins();
+
+  Promise.all([sendTurn(),getGame(),drawGame()]);
 }, false);
