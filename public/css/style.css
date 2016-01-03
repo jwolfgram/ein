@@ -4,10 +4,10 @@
   font-family: 'Alegreya Sans', sans-serif;
   font-size: 18px;
 }
-/*Google Chrome scroll bar hidden
+
 ::-webkit-scrollbar {
     display: none;
-    }*/
+    }
 
 #parallax-one {
   background-size: cover, contain;
@@ -15,7 +15,7 @@
   background-attachment: fixed;
   background-position: center center;
   box-shadow: inset 0 0 1em #111;
-  padding-bottom: 50px;
+  padding-bottom: 30px;
 }
 
 #parallax-two {
@@ -24,7 +24,6 @@
   background-attachment: fixed;
   background-position: center center;
   box-shadow: inset 0 0 1em #111;
-  padding-bottom: 50px;
 }
 
 #parallax-three {
@@ -62,21 +61,26 @@
   font-weight: bold;
 }
 
-#carousel {
-  height: 410px;
-  border-radius: 5px;
+#stats-content {
+  height:500px;
 }
 
-#carousel > div > div > div > div > img {
-  border-radius: 5px;
+#carousel {
+  height: 410px;
 }
 
 #tab-overview {
   margin-top: 10px;
+}
 
+.semi-white {
+  margin: 30px 0px 30px 0px;
+  background-color: rgba(255, 255, 255, .7) !important;
+  border-radius: 5px !important;
 }
 
 #map {
+  box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
   width: 500px;
   height:400px;
   background-color: #CCC;

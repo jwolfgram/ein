@@ -6,7 +6,25 @@ threeCard = document.getElementById('player-three'),
 fourCard = document.getElementById('player-four'),
 tableCard = document.getElementById('playing-card'),
 game,
-player;
+player,
+socket = io.connect('http://localhost:8080');
+
+window.onload = function() {
+  getUpdates();
+};
+
+
+function getUpdates() {
+  socket.on('playersDeck', function (data) {
+    console.log("Player Zero Deck:", data);
+  });
+  socket.on('table', function (data) {
+    console.log("Table:", data);
+  });
+  socket.on('status', function (data) {
+    console.log("Status:", data);
+  });
+}
 
 function getPlayer() {
   xhr.open('GET', '/game-state/', false);
@@ -19,9 +37,8 @@ function getPlayer() {
   //getGame();
 }
 
-Promise.all([getPlayer()]);
-//getPlayer();
-getGame();
+//Promise.all([getPlayer()]);
+//getGame();
 
 function getGame() {
   var cardsTwo,

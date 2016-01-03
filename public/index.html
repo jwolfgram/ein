@@ -45,7 +45,7 @@
                   <img src="images\home\carousel\slide-1.png" alt="Carousel Photos">
                 </div>
                 <div class="item">
-                  <img src="images\home\carousel\slide-2.jpg" alt="Carousel Photos">
+                  <img src="images\home\carousel\slide-2.png" alt="Carousel Photos">
                 </div>
               </div>
             </div>
@@ -82,65 +82,71 @@
         <h3>Rules:</h3>
         <ul>
           <li>Each player will be given seven cards at the start of the game.</li>
-          <li>The game will start with a card on the table for all to see.</li>
-          <li>The round will start with the player left of the dealer.</li>
-          <li>When it is your turn you will need to put a card on the top of the play deck that is of the same color or number on the card.</li>
-        </ul>
-      </div>
-      <div id="tab-tips" class="hidden">
-        <p>FILLER AREA</p>
-      </div>
-    </div>
-  </div>
-  <div id="parallax-two">
-    <div class="container">
-      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <h2>Top Scores!</h2>
-        <br>
-        <p>hi</p>
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <h2>Here are all the players on the map!</h2>
-        <div id="map">
+          <li>The game will start with one card facing up on the table.</li>
+          <li>Everyone will get one chance to place a card with either a matching number or color, if they do not have a card they will need to draw a new card.draw one card and their turn will be skipped.
+            <li>When a player has run out of cards they will win the game.</li>
+          </ul>
+        </div>
+        <div id="tab-tips" class="hidden">
+          <h3>Tips:</h3>
+          <ul>
+            <li>Win</li>
+          </ul>
         </div>
       </div>
     </div>
-  </div>
-  <div id="parallax-three">
-    <div class="container">
-      <div>
-        <h2>About Us</h2>
-        <p>This site was designed in Newport Beach, CA and is based off the Uno card game. It has been a long journey and so on..... (FIX THIS!!!)</p>
+    <div id="parallax-two">
+      <div class="container">
+        <div id="stats-content" class="semi-white row">
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <h2>Top Scores!</h2>
+            <br>
+            <p>hi</p>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <h2>Here are all the players on the map!</h2>
+            <div id="map"></div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <div id="footer">
-    <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-      <h3>Join our newsletter</h3>
-      <form>
-        <div class="form-group card-hr-top">
-          <label for="sub-email">First Name: </label>
-          <input type="text" class="form-control" placeholder="Enter your email here">
+    <div id="parallax-three">
+      <div class="container">
+        <div class="semi-white col-xs-12 col-lg-12">
+          <h2>About Us</h2>
+          <p>This site was designed in Irvine, CA and is based off the Uno card game. Using web development tools such as the MEAN development stack, and socket.io we were able to create a modern website that has the capability of playing a game with real time updating form the back-end node.js server. If you have any questions, concerns or advice on how to make this site better you are more then welcome to send us a message below. We are looking forward to your input and hope you enjoy the game!</p>
         </div>
-        <button type="submit" class="btn btn-primary">Subscribe</button>
-      </form>
+      </div>
     </div>
-    <div class="col-xs-12 col-sm-4 col-md-6 col-lg-6">
-      <img class="img-responsive center-block" alt="Logo" src="images\home\logo.png">
+    <div class="container">
+      <div id="footer">
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+          <h3>Join our newsletter</h3>
+          <form>
+            <div class="form-group card-hr-top">
+              <label for="sub-email">First Name: </label>
+              <input type="text" class="form-control" placeholder="Enter your email here">
+            </div>
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </form>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-6 col-lg-6">
+          <img class="img-responsive center-block" alt="Logo" src="images\home\logo.png">
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+          <address>
+            <strong>Ein</strong><br>
+            1705 Games Lane<br>
+            Suite: 55<br>
+            Irvine, CA 92613<br>
+            <abbr title="Phone">P:</abbr> (999) 999-9999
+          </address>
+        </div>
+      </div>
     </div>
-    <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-      <address>
-        <strong>Ein</strong><br>
-        1705 Games Lane<br>
-        Suite: 55<br>
-        Irvine, CA 92613<br>
-        <abbr title="Phone">P:</abbr> (999) 999-9999
-      </address>
-    </div>
-  </div>
-  <!-- Added javascript scripts -->
-  <script src="js/home.js"></script>
-  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-</body>
-</html>
+    <!-- Added javascript scripts -->
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="js/home.js"></script>
+  </body>
+  </html>
