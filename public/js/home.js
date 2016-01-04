@@ -40,8 +40,6 @@ tips.addEventListener('click', function(){
 function initialize() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(initialize);
-  } else {
-    alert("You don't support this");
   }
   var mapCanvas = document.getElementById('map');
   var mapOptions = {

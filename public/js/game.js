@@ -10,13 +10,8 @@ player,
 socket = io.connect('http://localhost:8080');
 
 window.onload = function() {
-  getUpdates();
-};
-
-
-function getUpdates() {
   socket.on('playersDeck', function (data) {
-    console.log("Player Zero Deck:", data);
+    console.log("Player Deck:", data);
   });
   socket.on('table', function (data) {
     console.log("Table:", data);
@@ -24,7 +19,7 @@ function getUpdates() {
   socket.on('status', function (data) {
     console.log("Status:", data);
   });
-}
+};
 
 function getPlayer() {
   xhr.open('GET', '/game-state/', false);
