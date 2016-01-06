@@ -1,7 +1,8 @@
 var express = require('express'),
 app = express(),
 port = '8080',
-io = require('socket.io')(),
+http = require('http').Server(app),
+io = require('socket.io')(http),
 bodyParser = require('body-parser');
 
 var playCard = {
@@ -61,9 +62,9 @@ var playCard = {
 
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.use('/', express.static('public')); //ROUTE the /web
+app.use('/', express.static('public')); //ROUTE the /public
 
-io.on('play', function (socket) {
+io.on("play", function (socket) {
   console.log('do you read: ');
   var turn = playCard.game[0].turn;  //define the turn we are on to associate socket.id
   var playerTurn = playCard.players[turn].id; // get player turn socket.id
@@ -78,8 +79,6 @@ io.on('play', function (socket) {
   }
   io.emit('table', playCard.table[0]); //Since play was made, resend the current card on table to players to see current card
 });
-
-io.listen(app.listen(port));
 
 io.on('connection', function (socket) { //'connection' only runs on the client connection.... as long as client does not refresh should be okay.
   var i;
@@ -119,4 +118,7 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
   }
 });
 
-console.log(port + ' is the port your webserver is running on.');
+
+http.listen(port, function(){
+  console.log('listening on *:' + port);
+});

@@ -9,6 +9,8 @@ game,
 player,
 socket = io();
 
+console.log(socket);
+
 function selectCard(e) {
   if (e.target !== e.currentTarget) {
     if (e.target.nodeName === 'P') {
@@ -34,7 +36,7 @@ submitBtn.addEventListener('click', function(){
 
   if (cardSelect.classList.contains('blue-card')) {
     console.log('Emitting card: ' + number + ' blue');
-    socket.emit('play', '[number, "blue"]');
+    socket.emit('play', [number, "blue"]);
   }
   if (cardSelect.classList.contains('yellow-card')) {
     console.log('Emitting card: ' + number + ' yellow');
