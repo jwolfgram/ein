@@ -14,34 +14,46 @@ var playCard = {
     {number: '1', color: 'blue'},
     {number: '1', color: 'red'},
     {number: '1', color: 'yellow'},
-    {number: '2', color: 'green'},
+    {number: '1', color: 'green'},
     {number: '1', color: 'green'},
     {number: '1', color: 'yellow'},
+    {number: '1', color: 'blue'}
+    ]
+  },
+  {
+    id: 99,
+    cards: [
+    {number: '2', color: 'blue'},
+    {number: '2', color: 'red'},
+    {number: '2', color: 'yellow'},
+    {number: '2', color: 'green'},
+    {number: '2', color: 'green'},
+    {number: '2', color: 'yellow'},
+    {number: '2', color: 'blue'}
+    ]
+  },
+  {
+    id: 99,
+    cards: [
+    {number: '3', color: 'blue'},
+    {number: '3', color: 'red'},
+    {number: '3', color: 'yellow'},
+    {number: '3', color: 'green'},
+    {number: '3', color: 'green'},
+    {number: '3', color: 'yellow'},
     {number: '3', color: 'blue'}
     ]
   },
   {
     id: 99,
     cards: [
-    {number: '', color: ''},
-    {number: '', color: ''}
-    ]
-  },
-  {
-    id: 99,
-    cards: [
-    {number: '', color: ''},
-    {number: '', color: ''},
-    {number: '', color: ''}
-    ]
-  },
-  {
-    id: 99,
-    cards: [
-    {number: '', color: ''},
-    {number: '', color: ''},
-    {number: '', color: ''},
-    {number: '', color: ''}
+    {number: '4', color: 'blue'},
+    {number: '4', color: 'red'},
+    {number: '4', color: 'yellow'},
+    {number: '4', color: 'green'},
+    {number: '4', color: 'green'},
+    {number: '4', color: 'yellow'},
+    {number: '4', color: 'blue'}
     ]
   }
   ]
@@ -51,9 +63,25 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/', express.static('public')); //ROUTE the /web
 
+io.on('play', function (socket) {
+  console.log('do you read: ');
+  var turn = playCard.game[0].turn;  //define the turn we are on to associate socket.id
+  var playerTurn = playCard.players[turn].id; // get player turn socket.id
+  if (socket.id === playerTurn) { //verify incoming data is only from player with their turn.
+    //Basically, check if the incomming card is valid in players deck and remove card from their deck
+    socket.emit('cards', playCard.players[turn].cards);
+    //determine if card was valid or if player needs to play correct card before incrementing turn, also include if statement if it needs to reset counter to 0
+    playCard.game[0].turn++;
+  }
+  else {
+    io.emit('status', playerTurn); // If this then resend data to clients saying whose turn it is to active eventlistener to stop incorrect players playing
+  }
+  io.emit('table', playCard.table[0]); //Since play was made, resend the current card on table to players to see current card
+});
+
 io.listen(app.listen(port));
 
-io.on('connection', function (socket) {
+io.on('connection', function (socket) { //'connection' only runs on the client connection.... as long as client does not refresh should be okay.
   var i;
   console.log('It appears someone activated the socket: ' + socket.id);
   socket.emit('status', playCard.game[0].session);
@@ -68,15 +96,11 @@ io.on('connection', function (socket) {
         io.emit('status', playCard.players[turn].id); //Client will check to see if the id matches themselves and annonce if its their turn or not
         console.log('The game has started and its ' + playCard.players[turn].id + ' turn.');
       }
-      if (playCard.players[i].id === socket.id) { //Check if existing player connected for status update
-        socket.emit('status', playCard.game[0].session);
-      }
-      else {
-        if (playCard.players[i].id === 99) {
-          playCard.players[i].id = socket.id;
-          console.log('Player ' + socket.id + ' has joined the current game session. ' +  playCard.players[i].id);
-          break;
-        }
+      if (playCard.players[i].id === 99) {
+        playCard.players[i].id = socket.id;
+        console.log('Player ' + socket.id + ' has joined the current game session. ' +  playCard.players[i].id);
+        socket.emit('cards', playCard.players[i].cards);
+        break;
       }
     }
   }
@@ -93,21 +117,6 @@ io.on('connection', function (socket) {
     }
     socket.emit('status', 'Game is full'); //Send private message to the fifth client joining saying the game is full
   }
-});
-
-io.on('play', function (socket) {
-  var turn = playCard.game[0].turn;
-  var playerTurn = playCard.players[turn].id;
-  if (socket.id === playerTurn) {
-    //Basically, check if the incomming card is valid in players deck and remove card from their deck
-    socket.emit('cards', playCard.players[turn].cards);
-    //determine if card was valid or if player needs to play correct card before incrementing turn, also include if statement if it needs to reset counter to 0
-    playCard.game[0].turn++;
-  }
-  else {
-    io.emit('status', playerTurn); // If this then resend data to clients saying whose turn it is to active eventlistener to stop incorrect players playing
-  }
-  io.emit('table', playCard.table[0]); //Since play was made, resend the current card on table to players to see current card
 });
 
 console.log(port + ' is the port your webserver is running on.');
