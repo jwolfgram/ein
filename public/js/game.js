@@ -115,4 +115,22 @@ socket.on('table', function (data) { //When server sends current card on table, 
 socket.on('status', function (data) { //When we get a new status, such as the playerid (if playerID matches client then announce to player its their turn)
   console.log('Status / Whose turn it is:' + data);
   console.log('My id is: ' + socket.id);
+  switch (data) {
+  case socket.id:
+    //When it is my turn, then...
+    console.log('Got status in switch for it being my turn.');
+    break;
+  case 'Waiting for Players':
+    //When we are waiting for other players to join the game
+    console.log('Got status in switch for waiting for players');
+    break;
+  case 'Game in Session':
+    //Status for game starting, have a little animation with party streamers
+    console.log('Got status in switch for Game in session');
+    break;
+  default:
+    //When its not my ID and not a general game status, we assume its someone else turn,, waiting for other players to take their turn
+    console.log('Got status in switch for something... guess its not my turn :-(');
+    break;
+}
 });
