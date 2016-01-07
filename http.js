@@ -75,9 +75,12 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
         var turn = playCard.game[0].turn;
         playCard.game[0].session = 'Game in Session'; //Every update game.js will redraw table
         io.emit('status', 'Game in Session');  //Client screen will go 'yay! game started'
-        io.emit('table', playCard.table[0]); //Send table card data to client to populate current card.
-        io.emit('status', playCard.players[turn].id); //Client will check to see if the id matches themselves and annonce if its their turn or not
-        console.log('The game has started and its ' + playCard.players[turn].id + ' turn.');
+        //Timeout for a second so the clients have a chance to show that game has started....
+        setTimeout(function(){
+          io.emit('table', playCard.table[0]); //Send table card data to client to populate current card.
+          io.emit('status', playCard.players[turn].id); //Client will check to see if the id matches themselves and annonce if its their turn or not
+          console.log('The game has started and its ' + playCard.players[turn].id + ' turn.');
+        }.bind(undefined, 10), 3000);
       }
       if (playCard.players[i].id === 99) {
         playCard.players[i].id = socket.id;
@@ -116,6 +119,8 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
             console.log(playCard.players[turn].cards);
             socket.emit('cards', playCard.players[turn].cards);
             playCard.game[0].turn++;
+            turn = playCard.game[0].turn;
+            playerTurn = playCard.players[turn].id;
           }
         }
       }
