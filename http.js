@@ -18,13 +18,13 @@ var playCard = {
     {number: '1', color: 'green'},
     {number: '1', color: 'green'},
     {number: '1', color: 'yellow'},
-    {number: '1', color: 'blue'}
+    {number: '1', color: 'green'}
     ]
   },
   {
     id: 99,
     cards: [
-    {number: '2', color: 'blue'},
+    {number: '2', color: 'red'},
     {number: '2', color: 'red'},
     {number: '2', color: 'yellow'},
     {number: '2', color: 'green'},
@@ -36,7 +36,7 @@ var playCard = {
   {
     id: 99,
     cards: [
-    {number: '3', color: 'blue'},
+    {number: '3', color: 'yellow'},
     {number: '3', color: 'red'},
     {number: '3', color: 'yellow'},
     {number: '3', color: 'green'},
@@ -63,22 +63,6 @@ var playCard = {
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/', express.static('public')); //ROUTE the /public
-
-io.on("play", function (socket) {
-  console.log('do you read: ');
-  var turn = playCard.game[0].turn;  //define the turn we are on to associate socket.id
-  var playerTurn = playCard.players[turn].id; // get player turn socket.id
-  if (socket.id === playerTurn) { //verify incoming data is only from player with their turn.
-    //Basically, check if the incomming card is valid in players deck and remove card from their deck
-    socket.emit('cards', playCard.players[turn].cards);
-    //determine if card was valid or if player needs to play correct card before incrementing turn, also include if statement if it needs to reset counter to 0
-    playCard.game[0].turn++;
-  }
-  else {
-    io.emit('status', playerTurn); // If this then resend data to clients saying whose turn it is to active eventlistener to stop incorrect players playing
-  }
-  io.emit('table', playCard.table[0]); //Since play was made, resend the current card on table to players to see current card
-});
 
 io.on('connection', function (socket) { //'connection' only runs on the client connection.... as long as client does not refresh should be okay.
   var i;
@@ -116,8 +100,30 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
     }
     socket.emit('status', 'Game is full'); //Send private message to the fifth client joining saying the game is full
   }
+  socket.on("play", function (data) { //GETTING CARD GAME PLAY HERE
+    console.log('Got a play from: ' + socket.id + ' for the data: ' + data[0] + ' and ' + data[1]); //data0 is the number on card and data1 is the color
+    var turn = playCard.game[0].turn;  //define the turn we are on to associate socket.id
+    var playerTurn = playCard.players[turn].id; // get player turn socket.id
+    if (socket.id === playerTurn) { //verify incoming data is only from player with their turn.
+      //Basically, check if the incomming card is valid in players deck and remove card from their deck
+      for (i = 0; i < playCard.players[turn].cards.length; i++) { //Counting cards, running loop for length of cards in players deck
+        if (playCard.players[turn].cards[i].number === data[0] && playCard.players[turn].cards[i].color === data[1]) { //Checking if card is valid in players deck
+          if (data[0] === playCard.table[0].number || data[1] === playCard.table[0].color) { //Checking if card is valid for the table play
+            playCard.table[0].number = data[0];
+            playCard.table[0].color = data[1];
+            playCard.players[turn].cards.splice(i, 1);
+            //delete playCard.players[turn].cards[i];
+            console.log(playCard.players[turn].cards);
+            socket.emit('cards', playCard.players[turn].cards);
+            playCard.game[0].turn++;
+          }
+        }
+      }
+    }
+    io.emit('status', playerTurn); // If this then resend data to clients saying whose turn it is to active eventlistener to stop incorrect players playing
+    io.emit('table', playCard.table[0]); //Since play was made, resend the current card on table to players to see current card
+  });
 });
-
 
 http.listen(port, function(){
   console.log('listening on *:' + port);

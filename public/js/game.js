@@ -73,6 +73,7 @@ socket.on('cards', function (data) { //When server sends players deck we will ne
   }
   //Get players hand of cards.
   cardCount = data.length;
+  console.log(data);
   console.log('Players deck counted: ' + cardCount);
   for (var i = 0; i < cardCount; i++) {
     var makeCard = document.createElement('div'); //Make card div for webpage
