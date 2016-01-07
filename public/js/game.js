@@ -19,11 +19,20 @@ function selectCard(e) {
     else {
       cardSelect = e.target;
     }
-    //This is where the code is going to go to show user the card that has been selected... like a green check bubble
+  //Check all cards to make sure we do not already have a checkmark on them.
+  var checkMark = document.getElementsByClassName('selected-card');
+  while (checkMark[0]) {
+    checkMark[0].parentNode.removeChild(checkMark[0]);
   }
-  console.log('Found card to play and selected!' + cardSelect);
-  e.stopPropagation();
+  //When card is clicked, add class that will show a checkmark.
+  var makeCheck = document.createElement('div');
+  makeCheck.setAttribute("class", "selected-card");
+  cardSelect.appendChild(makeCheck);
 }
+console.log('Found card to play and selected!' + cardSelect);
+e.stopPropagation();
+}
+
 
 playerHand.addEventListener("click", selectCard, false); //Adding event listener for 'Playing Card'
 
@@ -53,7 +62,7 @@ submitBtn.addEventListener('click', function(){
 }, false);
 
 socket.on('connect', function () {
-    console.log('Connected!');
+  console.log('Connected!');
 });
 
 socket.on('cards', function (data) { //When server sends players deck we will need to redraw the players deck.
