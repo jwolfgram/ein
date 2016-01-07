@@ -115,6 +115,11 @@ socket.on('table', function (data) { //When server sends current card on table, 
 socket.on('status', function (data) { //When we get a new status, such as the playerid (if playerID matches client then announce to player its their turn)
   console.log('Status / Whose turn it is:' + data);
   console.log('My id is: ' + socket.id);
+  var topLevel = document.getElementById('table-top');
+  var oldOverlay = document.getElementsByClassName('overlay');
+  while (oldOverlay[0]) {
+    oldOverlay[0].parentNode.removeChild(oldOverlay[0]);
+  }
   switch (data) {
   case socket.id:
     //When it is my turn, then...
@@ -122,6 +127,14 @@ socket.on('status', function (data) { //When we get a new status, such as the pl
     break;
   case 'Waiting for Players':
     //When we are waiting for other players to join the game
+    var makeOverlay = document.createElement('div'); //Makeing the div
+    makeOverlay.setAttribute("class", "overlay"); //add class to this overlay div
+    topLevel.appendChild(makeOverlay); //Appending dark overlay on table
+    var overlayTag = document.createElement('h2');
+    var overlayText = document.createTextNode('Waiting for other players to join the game...');
+    overlayTag.appendChild(overlayText);
+    overlayTag.setAttribute("style", "color: rgb(255,255,255);");
+    makeOverlay.appendChild(overlayTag);
     console.log('Got status in switch for waiting for players');
     break;
   case 'Game in Session':
