@@ -1,6 +1,6 @@
-var xhr = new XMLHttpRequest(),
-playerHand = document.getElementById('player-hand'),
+var playerHand = document.getElementById('player-hand'),
 submitBtn = document.getElementById('play-btn'),
+drawBtn = document.getElementById('drawcard-btn'),
 twoCard = document.getElementById('player-two'),
 threeCard = document.getElementById('player-three'),
 fourCard = document.getElementById('player-four'),
@@ -59,6 +59,10 @@ submitBtn.addEventListener('click', function(){
     console.log('Emitting card: ' + number + ' red');
     socket.emit('play', [number, "red"]);
   }
+}, false);
+
+drawBtn.addEventListener('click', function(){
+  socket.emit('play', 'Draw Card');
 }, false);
 
 socket.on('connect', function () {

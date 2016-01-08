@@ -59,6 +59,29 @@ var playCard = {
   ]
 };
 
+function drawCard() {
+  var ranNumber = Math.floor(Math.random() * 9) + 1,
+  ranColor = Math.floor(Math.random() * 4) + 1,
+  result;
+  switch (ranColor) {
+    case 1: //Color Blue
+    result = [ranNumber,'Blue'];
+    return result;
+
+    case 2: //Color Red
+    result = [ranNumber,'Red'];
+    return result;
+
+    case 3: //Color Green
+    result = [ranNumber,'Green'];
+    return result;
+
+    case 4: //Color Yellow
+    result = [ranNumber,'Yellow'];
+    return result;
+  }
+}
+
 app.use('/', express.static('public')); //ROUTE the /public
 
 io.on('connection', function (socket) { //'connection' only runs on the client connection.... as long as client does not refresh should be okay.
@@ -105,19 +128,28 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
     var turn = playCard.game[0].turn;  //define the turn we are on to associate socket.id
     var playerTurn = playCard.players[turn].id; // get player turn socket.id
     if (socket.id === playerTurn) { //verify incoming data is only from player with their turn.
-      //Basically, check if the incomming card is valid in players deck and remove card from their deck
-      for (i = 0; i < playCard.players[turn].cards.length; i++) { //Counting cards, running loop for length of cards in players deck
-        if (playCard.players[turn].cards[i].number === data[0] && playCard.players[turn].cards[i].color === data[1]) { //Checking if card is valid in players deck
-          if (data[0] === playCard.table[0].number || data[1] === playCard.table[0].color) { //Checking if card is valid for the table play
-            playCard.table[0].number = data[0];
-            playCard.table[0].color = data[1];
-            playCard.players[turn].cards.splice(i, 1);
-            //delete playCard.players[turn].cards[i];
-            console.log(playCard.players[turn].cards);
-            socket.emit('cards', playCard.players[turn].cards);
-            playCard.game[0].turn++;
-            turn = playCard.game[0].turn;
-            playerTurn = playCard.players[turn].id;
+      if (data === 'Draw Card') { //Cool, add a card to players deck....
+        var deckCount = playCard.players[turn].cards.length,
+        newCard = drawCard(); //Array [0] is the number and [1] is the color
+        playCard.players[turn].cards[deckCount + 1].number = newCard[0];
+        playCard.players[turn].cards[deckCount + 1].color = newCard[1];
+        console.log(playCard.players[turn].cards); //Show players deck to make sure all is good....
+      }
+      else {
+        //Basically, check if the incomming card is valid in players deck and remove card from their deck
+        for (i = 0; i < playCard.players[turn].cards.length; i++) { //Counting cards, running loop for length of cards in players deck
+          if (playCard.players[turn].cards[i].number === data[0] && playCard.players[turn].cards[i].color === data[1]) { //Checking if card is valid in players deck
+            if (data[0] === playCard.table[0].number || data[1] === playCard.table[0].color) { //Checking if card is valid for the table play
+              playCard.table[0].number = data[0];
+              playCard.table[0].color = data[1];
+              playCard.players[turn].cards.splice(i, 1);
+              //delete playCard.players[turn].cards[i];
+              console.log(playCard.players[turn].cards);
+              socket.emit('cards', playCard.players[turn].cards);
+              playCard.game[0].turn++;
+              turn = playCard.game[0].turn;
+              playerTurn = playCard.players[turn].id;
+            }
           }
         }
       }
