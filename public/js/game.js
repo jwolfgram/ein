@@ -115,35 +115,73 @@ socket.on('table', function (data) { //When server sends current card on table, 
 socket.on('status', function (data) { //When we get a new status, such as the playerid (if playerID matches client then announce to player its their turn)
   console.log('Status / Whose turn it is:' + data);
   console.log('My id is: ' + socket.id);
-  var topLevel = document.getElementById('table-top');
-  var oldOverlay = document.getElementsByClassName('overlay');
+  var topLevel = document.getElementById('table-top'),
+  oldOverlay = document.getElementsByClassName('overlay'),
+  oldBanner = document.getElementsByClassName('banner'),
+  makeOverlay,
+  overlayTag,
+  overlayText;
+
   while (oldOverlay[0]) {
     oldOverlay[0].parentNode.removeChild(oldOverlay[0]);
   }
+
+  while (oldBanner[0]) {
+    oldBanner[0].parentNode.removeChild(oldBanner[0]);
+  }
+
   switch (data) {
   case socket.id:
     //When it is my turn, then...
+    makeOverlay = document.createElement('div'); //Makeing the div
+    makeOverlay.setAttribute("class", "banner"); //add class to this overlay div
+    topLevel.appendChild(makeOverlay); //Appending dark overlay on table
+    overlayTag = document.createElement('h2');
+    overlayText = document.createTextNode('Its your turn!');
+    overlayTag.appendChild(overlayText);
+    overlayTag.setAttribute("style", "color: rgb(255,255,255);position: absolute;padding-top: 3px;left: 50%;transform: translate(-50%, -50%);");
+    makeOverlay.appendChild(overlayTag);
     console.log('Got status in switch for it being my turn.');
     break;
   case 'Waiting for Players':
     //When we are waiting for other players to join the game
-    var makeOverlay = document.createElement('div'); //Makeing the div
+    makeOverlay = document.createElement('div'); //Makeing the div
     makeOverlay.setAttribute("class", "overlay"); //add class to this overlay div
     topLevel.appendChild(makeOverlay); //Appending dark overlay on table
-    var overlayTag = document.createElement('h2');
-    var overlayText = document.createTextNode('Waiting for other players to join the game...');
+    overlayTag = document.createElement('h2');
+    overlayText = document.createTextNode('Waiting for other players to join the game...');
     overlayTag.appendChild(overlayText);
-    overlayTag.setAttribute("style", "color: rgb(255,255,255);");
+    overlayTag.setAttribute("style", "color: rgb(255,255,255);position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);");
     makeOverlay.appendChild(overlayTag);
     console.log('Got status in switch for waiting for players');
     break;
   case 'Game in Session':
     //Status for game starting, have a little animation with party streamers
+    makeOverlay = document.createElement('div'); //Makeing the div
+    makeOverlay.setAttribute("class", "overlay"); //add class to this overlay div
+    topLevel.appendChild(makeOverlay); //Appending dark overlay on table
+    overlayTag = document.createElement('h2');
+    overlayText = document.createTextNode('The game has started!!! We need party streamers!!!');
+    overlayTag.appendChild(overlayText);
+    //makeOverlay.setAttribute("style", "background-image: url(/images/game/party-streamer.gif);");
+    overlayTag.setAttribute("style", "color: rgb(255,255,255);position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);");
+    makeOverlay.appendChild(overlayTag);
     console.log('Got status in switch for Game in session');
     break;
   default:
     //When its not my ID and not a general game status, we assume its someone else turn,, waiting for other players to take their turn
+    makeOverlay = document.createElement('div'); //Makeing the div
+    makeOverlay.setAttribute("class", "overlay"); //add class to this overlay div
+    topLevel.appendChild(makeOverlay); //Appending dark overlay on table
+    overlayTag = document.createElement('h2');
+    overlayText = document.createTextNode('Someone is taking their turn... Please wait...');
+    overlayTag.appendChild(overlayText);
+    overlayTag.setAttribute("style", "color: rgb(255,255,255);position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);");
+    makeOverlay.appendChild(overlayTag);
+    console.log('Got status in switch for waiting for players');
     console.log('Got status in switch for something... guess its not my turn :-(');
     break;
 }
 });
+
+
