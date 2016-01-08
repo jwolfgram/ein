@@ -54,6 +54,8 @@ function drawDecks() {
   for (var i = 0; i < 4; i++) { //Length of players in game
     for (var z = 0; z < 7; z++) {//Run this 7 times for players decks
       newCard = drawCard();
+      console.log('-----');
+      console.log(playCard.players[i].cards);
       playCard.players[i].cards.splice(0, 0, {number: newCard[0],color: newCard[1]});
     }
   }
