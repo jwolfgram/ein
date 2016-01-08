@@ -6,81 +6,64 @@ io = require('socket.io')(http);
 
 var playCard = {
   game: [{session:'Waiting for Players', turn: 0}],
-  table: [{number:'2', color:'blue'}],
+  table: [],
   players: [
   {
     id: 99,
-    cards: [
-    {number: '1', color: 'blue'},
-    {number: '1', color: 'red'},
-    {number: '1', color: 'yellow'},
-    {number: '1', color: 'green'},
-    {number: '1', color: 'green'},
-    {number: '1', color: 'yellow'},
-    {number: '1', color: 'green'}
-    ]
+    cards: []
   },
   {
     id: 99,
-    cards: [
-    {number: '2', color: 'red'},
-    {number: '2', color: 'red'},
-    {number: '2', color: 'yellow'},
-    {number: '2', color: 'green'},
-    {number: '2', color: 'green'},
-    {number: '2', color: 'yellow'},
-    {number: '2', color: 'blue'}
-    ]
+    cards: []
   },
   {
     id: 99,
-    cards: [
-    {number: '3', color: 'yellow'},
-    {number: '3', color: 'red'},
-    {number: '3', color: 'yellow'},
-    {number: '3', color: 'green'},
-    {number: '3', color: 'green'},
-    {number: '3', color: 'yellow'},
-    {number: '3', color: 'blue'}
-    ]
+    cards: []
   },
   {
     id: 99,
-    cards: [
-    {number: '4', color: 'blue'},
-    {number: '4', color: 'red'},
-    {number: '4', color: 'yellow'},
-    {number: '4', color: 'green'},
-    {number: '4', color: 'green'},
-    {number: '4', color: 'yellow'},
-    {number: '4', color: 'blue'}
-    ]
+    cards: []
   }
   ]
 };
 
 function drawCard() {
   var ranNumber = Math.floor(Math.random() * 9) + 1,
-  ranColor = Math.floor(Math.random() * 4) + 1,
-  result;
+  ranColor = Math.floor(Math.random() * 4) + 1, result;
   switch (ranColor) {
     case 1: //Color Blue
-    result = [ranNumber,'Blue'];
+    result = [ranNumber.toString(),'blue'];
     return result;
 
     case 2: //Color Red
-    result = [ranNumber,'Red'];
+    result = [ranNumber.toString(),'red'];
     return result;
 
     case 3: //Color Green
-    result = [ranNumber,'Green'];
+    result = [ranNumber.toString(),'green'];
     return result;
 
     case 4: //Color Yellow
-    result = [ranNumber,'Yellow'];
+    result = [ranNumber.toString(),'yellow'];
     return result;
   }
 }
+
+function drawDecks() {
+  var newCard;
+  for (var i = 0; i < 4; i++) { //Length of players in game
+    for (var z = 0; z < 7; z++) {//Run this 7 times for players decks
+      newCard = drawCard();
+      console.log(playCard.players[i].cards);
+      playCard.players[i].cards.splice(0, 0, {number: newCard[0],color: newCard[1]});
+      console.log(playCard.players[i].cards);
+    }
+  }
+  //Also random card on table...
+  playCard.table.splice(0, 0, {number: newCard[0],color: newCard[1]});
+}
+
+drawDecks(); //Randomizing the new game....
 
 app.use('/', express.static('public')); //ROUTE the /public
 
@@ -129,15 +112,17 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
     var playerTurn = playCard.players[turn].id; // get player turn socket.id
     if (socket.id === playerTurn) { //verify incoming data is only from player with their turn.
       if (data === 'Draw Card') { //Cool, add a card to players deck....
-        var deckCount = playCard.players[turn].cards.length,
+        var deckCount = playCard.players[turn].cards.length - 1,
         newCard = drawCard(); //Array [0] is the number and [1] is the color
-        playCard.players[turn].cards[deckCount + 1].number = newCard[0];
-        playCard.players[turn].cards[deckCount + 1].color = newCard[1];
+        console.log(playCard.players[turn].cards);
+        playCard.players[turn].cards.push({number: newCard[0],color: newCard[1]});
+        socket.emit('cards', playCard.players[turn].cards);
         console.log(playCard.players[turn].cards); //Show players deck to make sure all is good....
       }
       else {
         //Basically, check if the incomming card is valid in players deck and remove card from their deck
-        for (i = 0; i < playCard.players[turn].cards.length; i++) { //Counting cards, running loop for length of cards in players deck
+        for (i = 0; i <= ((playCard.players[turn].cards.length) - 1); i++) { //Counting cards, running loop for length of cards in players deck
+          console.log(playCard.players[turn].cards[i].number);
           if (playCard.players[turn].cards[i].number === data[0] && playCard.players[turn].cards[i].color === data[1]) { //Checking if card is valid in players deck
             if (data[0] === playCard.table[0].number || data[1] === playCard.table[0].color) { //Checking if card is valid for the table play
               playCard.table[0].number = data[0];
@@ -146,7 +131,11 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
               //delete playCard.players[turn].cards[i];
               console.log(playCard.players[turn].cards);
               socket.emit('cards', playCard.players[turn].cards);
-              playCard.game[0].turn++;
+              if (playCard.game[0].turn < 3) {
+                playCard.game[0].turn++;
+              } else {
+                playCard.game[0].turn = 0;
+              }
               turn = playCard.game[0].turn;
               playerTurn = playCard.players[turn].id;
             }
