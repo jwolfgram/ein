@@ -2,8 +2,7 @@ var express = require('express'),
 app = express(),
 port = '8080',
 http = require('http').Server(app),
-io = require('socket.io')(http),
-bodyParser = require('body-parser');
+io = require('socket.io')(http);
 
 var playCard = {
   game: [{session:'Waiting for Players', turn: 0}],
@@ -59,8 +58,6 @@ var playCard = {
   }
   ]
 };
-
-app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/', express.static('public')); //ROUTE the /public
 
