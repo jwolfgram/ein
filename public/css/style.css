@@ -61,10 +61,6 @@
   font-weight: bold;
 }
 
-#stats-content {
-  height:500px;
-}
-
 #carousel {
   height: 410px;
 }
@@ -75,6 +71,7 @@
 
 .semi-white {
   margin: 30px 0px 30px 0px;
+  padding: 10px 0px 10px 0px;
   background-color: rgba(255, 255, 255, .7) !important;
   border-radius: 5px !important;
 }
@@ -83,14 +80,22 @@
   box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
   width: 500px;
   height:400px;
+  margin: 0px auto 20px auto;
   background-color: #CCC;
-}
-
-#footer {
-  height: 200px;
-  background-color: rgba(255, 255, 255, .5);
 }
 
 #top {
     padding-top: 70px;
+}
+
+#footer-break {
+  padding: 1px;
+  margin: 5px 0px 30px 0px;
+  border-bottom: 1px solid #848484;
+}
+
+#contact-us {
+  margin: 0px;
+  padding: 0px;
+  size: 18px;
 }

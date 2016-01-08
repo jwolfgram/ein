@@ -20,6 +20,9 @@
   background-image: url(../images/game/back-card.png);
   background-size: contain;
   background-repeat: no-repeat;
+  opacity: 1;
+  animation-name: fade-in;
+  animation-duration: 1s;
 }
 
 #nav {
@@ -94,6 +97,9 @@
   height: 175px;
   width: 125px;
   position: relative;
+  opacity: 1;
+  animation-name: fade-in;
+  animation-duration: 1s;
 }
 
 .green-card {
@@ -107,6 +113,9 @@
   height: 175px;
   width: 125px;
   position: relative;
+  opacity: 1;
+  animation-name: fade-in;
+  animation-duration: 1s;
 }
 
 .blue-card {
@@ -120,6 +129,9 @@
   height: 175px;
   width: 125px;
   position: relative;
+  opacity: 1;
+  animation-name: fade-in;
+  animation-duration: 1s;
 }
 
 .yellow-card {
@@ -133,6 +145,9 @@
   height: 175px;
   width: 125px;
   position: relative;
+  opacity: 1;
+  animation-name: fade-in;
+  animation-duration: 1s;
 }
 
 .selected-card {
@@ -174,4 +189,16 @@
   z-index: 99;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  animation-name: banner-down;
+  animation-duration: 3s;
+}
+
+@keyframes banner-down {
+    from {margin-top: -51px;}
+    to {margin-top: 0px;}
+}
+
+@keyframes fade-in {
+    from {opacity: .1;}
+    to {opacity: 1;}
 }

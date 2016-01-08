@@ -39,20 +39,25 @@ tips.addEventListener('click', function(){
 //Google Maps
 function initialize() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(initialize);
+    navigator.geolocation.getCurrentPosition(drawMap);
   }
-  var mapCanvas = document.getElementById('map');
-  var mapOptions = {
-    center: new google.maps.LatLng(33.6839, -117.7946),
-    zoom: 10,
-    mapTypeId: google.maps.MapTypeId.ROADMAP,
-    scrollwheel: false
-  };
-  var map = new google.maps.Map(mapCanvas, mapOptions);
-  var marker = new google.maps.Marker({
-    position: myLatLng,
-    map: map,
-    title: 'Hello World!'
-  });
+  function drawMap(pos) {
+    var geo = pos.coords;
+    console.log(pos.coords);
+    var myLatlng = new google.maps.LatLng(geo.latitude, geo.longitude);
+    var mapCanvas = document.getElementById('map');
+    var mapOptions = {
+      center: new google.maps.LatLng(33.6839, -117.7946),
+      zoom: 11,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      scrollwheel: false
+    };
+    var map = new google.maps.Map(mapCanvas, mapOptions);
+    new google.maps.Marker({ //Literally all we need to do to add more markers is repeat lines 56 - 60
+      position: myLatlng,
+      map: map,
+      title: 'Hello World!'
+    });
   }
-  google.maps.event.addDomListener(window, 'load', initialize);
+}
+google.maps.event.addDomListener(window, 'load', initialize);

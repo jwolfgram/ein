@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/style.css">
   <title>Ein - Like Uno!</title>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSU16C1y5gPzlymicqKYfDgtLXYM0zqTM&callback=initialize"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSU16C1y5gPzlymicqKYfDgtLXYM0zqTM"></script>
 </head>
 <body>
   <!-- This is the Navigation Bar fixed to the top of screen -->
@@ -83,64 +86,61 @@
         <ul>
           <li>Each player will be given seven cards at the start of the game.</li>
           <li>The game will start with one card facing up on the table.</li>
-          <li>Everyone will get one chance to place a card with either a matching number or color, if they do not have a card they will need to draw a new card.draw one card and their turn will be skipped.
-            <li>When a player has run out of cards they will win the game.</li>
-          </ul>
-        </div>
-        <div id="tab-tips" class="hidden">
-          <h3>Tips:</h3>
-          <ul>
-            <li>Win</li>
-          </ul>
-        </div>
+          <li>Everyone will get one chance to place a card with either a matching number or color, if they do not have a card they will need to draw a new card.draw one card and their turn will be skipped.</li>
+          <li>When a player has run out of cards they will win the game.</li>
+        </ul>
+      </div>
+      <div id="tab-tips" class="hidden">
+        <h3>Tips:</h3>
+        <ul>
+          <li>Win</li>
+        </ul>
       </div>
     </div>
-    <div id="parallax-two">
-      <div class="container">
-        <div id="stats-content" class="semi-white row">
-          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <h2>Top Scores!</h2>
-            <br>
-            <p>hi</p>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <h2>Here are all the players on the map!</h2>
-            <div id="map"></div>
+  </div>
+  <div id="parallax-two">
+    <div class="container">
+      <div class="semi-white row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+          <h2>Top Scores!</h2>
+          <br>
+          <p>hi</p>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+          <h2>Here are all the players on the map!</h2>
+          <div id="map"></div>
+          <div></div
           </div>
         </div>
       </div>
     </div>
     <div id="parallax-three">
       <div class="container">
-        <div class="semi-white col-xs-12 col-lg-12">
-          <h2>About Us</h2>
-          <p>This site was designed in Irvine, CA and is based off the Uno card game. Using web development tools such as the MEAN development stack, and socket.io we were able to create a modern website that has the capability of playing a game with real time updating form the back-end node.js server. If you have any questions, concerns or advice on how to make this site better you are more then welcome to send us a message below. We are looking forward to your input and hope you enjoy the game!</p>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <div id="footer">
-        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-          <h3>Join our newsletter</h3>
-          <form>
-            <div class="form-group card-hr-top">
-              <label for="sub-email">First Name: </label>
-              <input type="text" class="form-control" placeholder="Enter your email here">
-            </div>
-            <button type="submit" class="btn btn-primary">Subscribe</button>
-          </form>
-        </div>
-        <div class="col-xs-12 col-sm-4 col-md-6 col-lg-6">
-          <img class="img-responsive center-block" alt="Logo" src="images\home\logo.png">
-        </div>
-        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-          <address>
-            <strong>Ein</strong><br>
-            1705 Games Lane<br>
-            Suite: 55<br>
-            Irvine, CA 92613<br>
-            <abbr title="Phone">P:</abbr> (999) 999-9999
-          </address>
+        <div class="semi-white row">
+          <div class="col-xs-12 col-lg-12">
+            <h2>About Us</h2>
+            <p>This site was designed in Irvine, CA and is based off the Uno card game. Using web development tools such as the MEAN development stack, and socket.io we were able to create a modern website that has the capability of playing a game with real time updating form the back-end node.js server. If you have any questions, concerns or advice on how to make this site better you are more then welcome to send us a message below. We are looking forward to your input and hope you enjoy the game!</p>
+          </div>
+          <div id="footer-break" class="col-xs-12 col-lg-12"></div>
+          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+            <p id="contact-us">Contact Us</p>
+            <i class="fa fa-tumblr-square fa-2x"></i>
+            <i class="fa fa-twitter-square fa-2x"></i>
+            <i class="fa fa-facebook-square fa-2x"></i>
+            <i class="fa fa-google-plus-square fa-2x"></i>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+            <img class="img-responsive center-block" alt="Logo" src="images\home\logo.png">
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-offset-1 col-md-3 col-lg-offset-1 col-lg-3">
+            <address>
+              <strong>Ein</strong><br>
+              1705 Games Lane<br>
+              Suite: 55<br>
+              Irvine, CA 92613<br>
+              <abbr title="Phone">P:</abbr> (999) 999-9999
+            </address>
+          </div>
         </div>
       </div>
     </div>

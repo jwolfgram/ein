@@ -54,8 +54,6 @@ function drawDecks() {
   for (var i = 0; i < 4; i++) { //Length of players in game
     for (var z = 0; z < 7; z++) {//Run this 7 times for players decks
       newCard = drawCard();
-      console.log('-----');
-      console.log(playCard.players[i].cards);
       playCard.players[i].cards.splice(0, 0, {number: newCard[0],color: newCard[1]});
     }
   }
@@ -115,26 +113,23 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
       if (data === 'Draw Card') { //Cool, add a card to players deck....
         var deckCount = playCard.players[turn].cards.length - 1,
         newCard = drawCard(); //Array [0] is the number and [1] is the color
-        console.log(playCard.players[turn].cards);
         playCard.players[turn].cards.push({number: newCard[0],color: newCard[1]});
         socket.emit('cards', playCard.players[turn].cards);
-        console.log(playCard.players[turn].cards); //Show players deck to make sure all is good....
       }
       else {
         //Basically, check if the incomming card is valid in players deck and remove card from their deck
         for (i = 0; i <= ((playCard.players[turn].cards.length) - 1); i++) { //Counting cards, running loop for length of cards in players deck
-          console.log(playCard.players[turn].cards[i].number);
           if (playCard.players[turn].cards[i].number === data[0] && playCard.players[turn].cards[i].color === data[1]) { //Checking if card is valid in players deck
             if (data[0] === playCard.table[0].number || data[1] === playCard.table[0].color) { //Checking if card is valid for the table play
               playCard.table[0].number = data[0];
               playCard.table[0].color = data[1];
               playCard.players[turn].cards.splice(i, 1);
-              //delete playCard.players[turn].cards[i];
-              console.log(playCard.players[turn].cards);
               socket.emit('cards', playCard.players[turn].cards);
               if (playCard.game[0].turn < 3) {
                 playCard.game[0].turn++;
+                console.log('Incremented a turn: ' + playCard.game[0].turn);
               } else {
+                console.log('Reset turn counter to zero.');
                 playCard.game[0].turn = 0;
               }
               turn = playCard.game[0].turn;
