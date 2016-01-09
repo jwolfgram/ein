@@ -106,25 +106,33 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
     socket.emit('status', 'Game is full'); //Send private message to the fifth client joining saying the game is full
   }
   socket.on("play", function (data) { //GETTING CARD GAME PLAY HERE
-    console.log('Got a play from: ' + socket.id + ' for the data: ' + data[0] + ' and ' + data[1]); //data0 is the number on card and data1 is the color
     var turn = playCard.game[0].turn;  //define the turn we are on to associate socket.id
     var playerTurn = playCard.players[turn].id; // get player turn socket.id
     if (socket.id === playerTurn) { //verify incoming data is only from player with their turn.
+      console.log('1. Player Valid');
       if (data === 'Draw Card') { //Cool, add a card to players deck....
+        console.log('2. Draw Card');
         var deckCount = playCard.players[turn].cards.length - 1,
         newCard = drawCard(); //Array [0] is the number and [1] is the color
         playCard.players[turn].cards.push({number: newCard[0],color: newCard[1]});
         socket.emit('cards', playCard.players[turn].cards);
       }
       else {
+        console.log('2. Play Card');
         //Basically, check if the incomming card is valid in players deck and remove card from their deck
+        console.log('Got a play from: ' + socket.id + ' for the data: ' + data[0] + ' and ' + data[1]); //data0 is the number on card and data1 is the color
         for (i = 0; i <= ((playCard.players[turn].cards.length) - 1); i++) { //Counting cards, running loop for length of cards in players deck
+          var breakOut = 0;
+          console.log('3. Going through a card');
           if (playCard.players[turn].cards[i].number === data[0] && playCard.players[turn].cards[i].color === data[1]) { //Checking if card is valid in players deck
+            console.log('4. Looks like card is a card in players deck....');
             if (data[0] === playCard.table[0].number || data[1] === playCard.table[0].color) { //Checking if card is valid for the table play
+              console.log('5. Also looks good on the table');
               playCard.table[0].number = data[0];
               playCard.table[0].color = data[1];
               playCard.players[turn].cards.splice(i, 1);
               socket.emit('cards', playCard.players[turn].cards);
+              breakOut = 1;
               if (playCard.game[0].turn < 3) {
                 playCard.game[0].turn++;
                 console.log('Incremented a turn: ' + playCard.game[0].turn);
@@ -132,15 +140,29 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
                 console.log('Reset turn counter to zero.');
                 playCard.game[0].turn = 0;
               }
-              turn = playCard.game[0].turn;
-              playerTurn = playCard.players[turn].id;
+              if (playCard.players[turn].cards.length === 0) {
+                socket.emit('status', 'You Won');
+                socket.broadcast.emit('status', 'You Lost');
+                console.log('We have a winner!!!');
+              }
+              else {
+                console.log('6. Not winner yet, but sending table and status to players for next round');
+                turn = playCard.game[0].turn;
+                playerTurn = playCard.players[turn].id;
+                io.emit('status', playerTurn); // If this then resend data to clients saying whose turn it is to active eventlistener to stop incorrect players playing
+                io.emit('table', playCard.table[0]); //Since play was made, resend the current card on table to players to see current card
+              }
             }
           }
+        if (breakOut === 1) {
+          break;
+        }
         }
       }
     }
-    io.emit('status', playerTurn); // If this then resend data to clients saying whose turn it is to active eventlistener to stop incorrect players playing
-    io.emit('table', playCard.table[0]); //Since play was made, resend the current card on table to players to see current card
+    console.log('Player cards in deck:: ' + playCard.players[turn].cards.length);
+    console.log(playCard);
+    console.log('=============');
   });
 });
 

@@ -193,6 +193,17 @@
   animation-duration: 3s;
 }
 
+.loading-card {
+  margin: 30% auto 0px auto;
+  border-radius: 7px;
+  height: 175px;
+  width: 125px;
+  background-image: url(../images/game/back-card.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: card-rotateplane 2s infinite ease-in-out;
+}
+
 @keyframes banner-down {
     from {margin-top: -51px;}
     to {margin-top: 0px;}
@@ -201,4 +212,17 @@
 @keyframes fade-in {
     from {opacity: .1;}
     to {opacity: 1;}
+}
+
+@keyframes card-rotateplane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+  } 50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+  } 100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
 }
