@@ -50,8 +50,13 @@ function drawCard() {
 }
 
 function drawDecks() {
+  //Function which will remove the last games contents
   var newCard;
   for (var i = 0; i < 4; i++) { //Length of players in game
+    while (playCard.players[i].cards.length > 0) {
+      playCard.players[i].cards.removeChild(playCard.players[i].cards.lastChild);
+    }
+
     for (var z = 0; z < 7; z++) {//Run this 7 times for players decks
       newCard = drawCard();
       playCard.players[i].cards.splice(0, 0, {number: newCard[0],color: newCard[1]});
@@ -93,16 +98,7 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
     }
   }
   else { //Game is full, see if game is over and reset game for new one if needed.
-    for (i = 0; i < playCard.players.length; i++) {
-      if (playCard.players[i].length === 0) {
-        playCard.game[0].session = 'Game End';
-      }
-    }
-    if (playCard.game[0].session === 'Game End') {
-      for (i = 0; i < playCard.players.length; i++) {
-        playCard.players[i].id = 99;
-      }
-    }
+    //If you want, we can put people in a que here.... since game is full
     socket.emit('status', 'Game is full'); //Send private message to the fifth client joining saying the game is full
   }
   socket.on("play", function (data) { //GETTING CARD GAME PLAY HERE
@@ -143,6 +139,11 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
               if (playCard.players[turn].cards.length === 0) {
                 socket.emit('status', 'You Won');
                 socket.broadcast.emit('status', 'You Lost');
+                playCard.game[0].session = 'Waiting for Players';
+                for (i = 0; i < playCard.players.length; i++) {
+                  playCard.players[i].id = 99;
+                }
+                drawDecks();
                 console.log('We have a winner!!!');
               }
               else {
