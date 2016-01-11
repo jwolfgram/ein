@@ -1,13 +1,18 @@
 @import url(https://fonts.googleapis.com/css?family=Alegreya+Sans);
 
-* {
+body {
   font-family: 'Alegreya Sans', sans-serif;
   font-size: 18px;
+  scroll-behavior: auto;
 }
 
 ::-webkit-scrollbar {
     display: none;
     }
+
+tbody > tr:nth-child(odd) {
+  background-color: rgba(140, 114, 114, 0.8);
+}
 
 #parallax-one {
   background-size: cover, contain;
@@ -61,6 +66,16 @@
   font-weight: bold;
 }
 
+#player-scores {
+  padding: 5px;
+  box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
+  width: 500px;
+  height:300px;
+  overflow-y: scroll;
+  border: 1px solid rgba(140, 114, 114, 0.6);
+  background-color: rgba(140, 114, 114, 0.3);
+}
+
 #carousel {
   height: 410px;
 }
@@ -74,6 +89,11 @@
   padding: 10px 0px 10px 0px;
   background-color: rgba(255, 255, 255, .7) !important;
   border-radius: 5px !important;
+}
+
+.smooth-scroll {
+  transition: all 3s ease-in;
+  scroll-behavior: smooth;
 }
 
 #map {

@@ -23,7 +23,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Ein</a>
+          <a class="navbar-brand" href="#">Eins</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse">
@@ -32,7 +32,7 @@
             <li><a href="/game.html">Start Game</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#parallax-three">About</a></li>
+            <li><a class="smooth-scroll" href="#parallax-three">About</a></li>
           </ul>
         </div>
       </div>
@@ -103,8 +103,39 @@
       <div class="semi-white row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
           <h2>Top Scores!</h2>
-          <br>
-          <p>hi</p>
+          <table id="player-scores">
+            <thead>
+              <tr>
+                <th>Player</th>
+                <th>Rounds to Win</th>
+              </tr>
+            </thead>
+            <tbody id="jsMongo">
+              <tr>
+                <td>Joe</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <td>Bob</td>
+                <td>14</td>
+              </tr>
+              <tr>
+                <td>Kyle</td>
+                <td>16</td>
+              </tr>
+              <tr>
+                <td>Jim</td>
+                <td>17</td>
+              </tr>
+              <tr>
+                <td>Kim</td>
+                <td>18</td>
+              </tr>
+            </tbody>
+            <caption>
+              The score for each player is calculated by the number of rounds it took to win a game, lower is better.
+            </caption>
+          </table>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
           <h2>Here are all the players on the map!</h2>
