@@ -157,13 +157,13 @@ io.on('connection', function (socket) {
 });
 
 /*Data for database to recover players scores*/
-
-app.get('/data', function (req, res) {
-  var schema = mongoose.Schema({
+var schema = mongoose.Schema({
     name: String,
     score: String
     });
-  var score = mongoose.model('eins', schema);
+var score = mongoose.model('eins', schema);
+
+app.get('/data', function (req, res) {
   //new score({ name: 'Tom', score: '10'  }).save();
   score.find({}, function (err, docs) {
     res.send(docs);
