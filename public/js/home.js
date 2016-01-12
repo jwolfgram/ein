@@ -60,7 +60,7 @@ function initialize() {
   }
 }
 
-//google.maps.event.addDomListener(window, 'load', initialize);
+google.maps.event.addDomListener(window, 'load', initialize);
 
 //Get table data for the scores from database
 function getData(url) {
