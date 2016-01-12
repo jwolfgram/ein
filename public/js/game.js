@@ -14,9 +14,9 @@ function newBanner(msg) {
   var oldBanner = document.getElementsByClassName('banner'),
   topLevel = document.getElementById('table-top'),
   oldOverlay = document.getElementsByClassName('overlay'),
-  makeOverlay,
-  overlayTag,
-  overlayText;
+  bannerOverlay,
+  bannerTag,
+  bannerText;
 
   while (oldBanner[0]) {
     oldBanner[0].parentNode.removeChild(oldBanner[0]);
@@ -24,14 +24,14 @@ function newBanner(msg) {
   while (oldOverlay[0]) {
     oldOverlay[0].parentNode.removeChild(oldOverlay[0]);
   }
-  makeOverlay = document.createElement('div'); //Makeing the div
-  makeOverlay.setAttribute("class", "banner"); //add class to this overlay div
-  topLevel.appendChild(makeOverlay); //Appending dark overlay on table
+  bannerOverlay = document.createElement('div'); //Makeing the div
+  bannerOverlay.setAttribute("class", "banner"); //add class to this overlay div
+  topLevel.appendChild(bannerOverlay); //Appending dark overlay on table
   overlayTag = document.createElement('h2');
-  overlayText = document.createTextNode(msg);
-  overlayTag.appendChild(overlayText);
+  bannerText = document.createTextNode(msg);
+  overlayTag.appendChild(bannerText);
   overlayTag.setAttribute("style", "color: rgb(255,255,255);position: absolute;padding-top: 3px;left: 50%;transform: translate(-50%, -50%);");
-  makeOverlay.appendChild(overlayTag);
+  bannerOverlay.appendChild(overlayTag);
 }
 
 function newOverlay(msg) {
@@ -39,8 +39,8 @@ function newOverlay(msg) {
   topLevel = document.getElementById('table-top'),
   oldOverlay = document.getElementsByClassName('overlay'),
   makeOverlay,
-  overlayTag,
-  overlayText;
+  contentTag,
+  contentText;
 
   while (oldBanner[0]) {
     oldBanner[0].parentNode.removeChild(oldBanner[0]);
@@ -49,13 +49,15 @@ function newOverlay(msg) {
     oldOverlay[0].parentNode.removeChild(oldOverlay[0]);
   }
   makeOverlay = document.createElement('div'); //Makeing the div
+  newContent = document.createElement('div');
   makeOverlay.setAttribute("class", "overlay"); //add class to this overlay div
+  newContent.setAttribute('id', 'overlay-content');
+  contentTag = document.createElement('h2');
+  contentText = document.createTextNode(msg);
+  contentTag.appendChild(contentText);
+  newContent.appendChild(contentTag);
+  makeOverlay.appendChild(newContent);
   topLevel.appendChild(makeOverlay); //Appending dark overlay on table
-  overlayTag = document.createElement('h2');
-  overlayText = document.createTextNode(msg);
-  overlayTag.appendChild(overlayText);
-  overlayTag.setAttribute("style", "color: rgb(255,255,255);position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);");
-  makeOverlay.appendChild(overlayTag);
 }
 
 function selectCard(e) {
@@ -120,7 +122,7 @@ submitBtn.addEventListener('click', function(){
     console.log('Table Color not if: ' + color);
     socket.emit('play', [number, color]);
   } else {
-    newBanner('The card is not valid! Please try again...')
+    newBanner('The card is not valid! Please try again...');
   }
 }, false);
 
@@ -184,12 +186,13 @@ socket.on('status', function (data) { //When we get a new status, such as the pl
   console.log('My id is: ' + socket.id);
 
   var topLevel = document.getElementById('table-top'),
-  oldOverlay = document.getElementsByClassName('overlay'),
-  oldBanner = document.getElementsByClassName('banner'),
   socketID = '/#' + socket.id,
   makeOverlay,
   overlayTag,
-  overlayText;
+  overlay,
+  overlayText,
+  home,
+  homeA;
 
   console.log(socketID);
 
@@ -202,7 +205,7 @@ socket.on('status', function (data) { //When we get a new status, such as the pl
     case 'Waiting for Players':
     //When we are waiting for other players to join the game
     newOverlay('Waiting for other players to join the game...');
-    var overlay = document.getElementsByClassName('overlay')[0];
+    overlay = document.getElementById('overlay-content');
     var loadingCard = document.createElement('div');
     loadingCard.setAttribute("class", "loading-card");
     overlay.appendChild(loadingCard);
@@ -214,9 +217,38 @@ socket.on('status', function (data) { //When we get a new status, such as the pl
     break;
     case 'You Won':
       newOverlay('Congratulations you won!');
+      overlay = document.getElementById('overlay-content');
+      var winnerName = document.createElement('input');
+      var submitScore = document.createElement('button');
+      home = document.createElement('button');
+      homeA = document.createElement('a');
+
+      submitScore.setAttribute('class', 'btn btn-success center-block');
+      home.setAttribute('class', 'btn btn-danger center-block');
+      winnerName.setAttribute("class", "form-control winner-input");
+      winnerName.setAttribute("placeholder", "Enter your name here!!!");
+      homeA.setAttribute("href", "/");
+      scoreText = document.createTextNode('Submit your score!');
+      homeText = document.createTextNode('Back to home.');
+      submitScore.appendChild(scoreText);
+      home.appendChild(homeText);
+      homeA.appendChild(home);
+      overlay.appendChild(winnerName);
+      overlay.appendChild(submitScore);
+      overlay.appendChild(homeA);
+      console.log('Got status in switch for waiting for players');
     break;
     case 'You Lost':
       newOverlay('Game Over! You Lost...');
+      home = document.createElement('button');
+      homeA = document.createElement('a');
+      overlay = document.getElementById('overlay-content');
+      homeText = document.createTextNode('Back to home.');
+      home.setAttribute('class', 'btn btn-danger center-block');
+      homeA.setAttribute("href", "/");
+      home.appendChild(homeText);
+      homeA.appendChild(home);
+      overlay.appendChild(homeA);
     break;
     default:
       //When its not my ID and not a general game status, we assume its someone else turn,, waiting for other players to take their turn

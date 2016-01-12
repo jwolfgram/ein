@@ -60,7 +60,7 @@ function drawDecks() {
 
   for (i = 0; i < 4; i++) { //Length of players in game
     playCard.players[i].cards.splice(0, playCard.players[i].cards.length);
-    for (var z = 0; z < 7; z++) {//Run this 7 times for players decks
+    for (var z = 0; z < 2; z++) {//Run this 7 times for players decks
       newCard = drawCard();
       playCard.players[i].cards.splice(0, 0, {number: newCard[0],color: newCard[1]});
     }
