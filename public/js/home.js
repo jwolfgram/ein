@@ -61,4 +61,33 @@ function initialize() {
   }
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
+//google.maps.event.addDomListener(window, 'load', initialize);
+
+//Get table data for the scores from database
+function getData(url) {
+  var xhr = new XMLHttpRequest(); // a new request
+  xhr.open("GET",url,false);
+  xhr.send(null);
+  return JSON.parse(xhr.responseText);
+}
+
+
+var xhr = getData('/data');
+scoreBoard(xhr);
+
+function scoreBoard(data) {
+  for (var i = 0; i < data.length || i < 4; i++) {
+    var table = document.getElementById('jsMongo'),
+    makeTr = document.createElement('tr'),
+    nameTd = document.createElement('td'),
+    scoreTd = document.createElement('td'),
+    name = document.createTextNode(data[i].name),
+    score = document.createTextNode(data[i].score);
+
+    nameTd.appendChild(name);
+    scoreTd.appendChild(score);
+    makeTr.appendChild(nameTd);
+    makeTr.appendChild(scoreTd);
+    table.appendChild(makeTr);
+  }
+}

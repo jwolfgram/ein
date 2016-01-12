@@ -59,15 +59,11 @@ function drawDecks() {
   i;
 
   for (i = 0; i < 4; i++) { //Length of players in game
-    console.log('Rebuilding deck....');
-    console.log(playCard.players[i].cards);
     playCard.players[i].cards.splice(0, playCard.players[i].cards.length);
-    console.log(playCard.players[i].cards);
     for (var z = 0; z < 7; z++) {//Run this 7 times for players decks
       newCard = drawCard();
       playCard.players[i].cards.splice(0, 0, {number: newCard[0],color: newCard[1]});
     }
-    console.log(playCard.players[i].cards);
   }
   //Also random card on table...
   playCard.table.splice(0, 0, {number: newCard[0],color: newCard[1]});
@@ -80,7 +76,7 @@ app.use('/', express.static('public')); //ROUTE the /public
 
 io.on('connection', function (socket) { //'connection' only runs on the client connection.... as long as client does not refresh should be okay.
   var i;
-  console.log('It appears someone activated the socket: ' + socket.id);
+  console.log('It appears someone activated the web socket (new user): ' + socket.id);
   socket.emit('status', playCard.game[0].session);
   //For loop to assign ID a deck or send game status to players if Game in Session
   if (playCard.game[0].session === 'Waiting for Players') {
@@ -98,7 +94,7 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
       }
       if (playCard.players[i].id === 99) {
         playCard.players[i].id = socket.id;
-        console.log('Player ' + socket.id + ' has joined the current game session. ' +  playCard.players[i].id);
+        console.log('Player ' + socket.id + ' has joined the current game session.');
         socket.emit('cards', playCard.players[i].cards);
         break;
       }
@@ -119,14 +115,12 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
         socket.emit('cards', playCard.players[turn].cards);
       }
       else {
-        console.log('2. Play Card');
         //Basically, check if the incomming card is valid in players deck and remove card from their deck
         console.log('Got a play from: ' + socket.id + ' for the data: ' + data[0] + ' and ' + data[1]); //data0 is the number on card and data1 is the color
         for (i = 0; i <= ((playCard.players[turn].cards.length) - 1); i++) { //Counting cards, running loop for length of cards in players deck
           var breakOut = 0;
           if (playCard.players[turn].cards[i].number === data[0] && playCard.players[turn].cards[i].color === data[1]) { //Checking if card is valid in players deck
             if (data[0] === playCard.table[0].number || data[1] === playCard.table[0].color) { //Checking if card is valid for the table play
-              console.log('5. Also looks good on the table');
               playCard.table[0].number = data[0];
               playCard.table[0].color = data[1];
               playCard.players[turn].cards.splice(i, 1);
@@ -163,7 +157,7 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
         }
       }
     }
-    console.log('Player cards in deck:: ' + playCard.players[turn].cards.length);
+    //console.log('Player cards in deck:: ' + playCard.players[turn].cards.length);
   });
 });
 
