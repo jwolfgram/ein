@@ -8,7 +8,6 @@ tabOverview = document.getElementById('tab-overview'),
 tabhowPlay = document.getElementById('tab-howtoplay'),
 tabTips = document.getElementById('tab-tips');
 
-//Overview, How to Play, Tips selector
 overview.addEventListener('click', function(){
   tabOverview.setAttribute('class', '');
   tabhowPlay.setAttribute('class', 'hidden');
