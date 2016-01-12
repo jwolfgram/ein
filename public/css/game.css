@@ -190,7 +190,7 @@
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   animation-name: banner-down;
-  animation-duration: 3s;
+  animation-duration: 1s;
 }
 
 .loading-card {

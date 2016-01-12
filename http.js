@@ -57,11 +57,17 @@ function drawDecks() {
   //Function which will remove the last games contents
   var newCard,
   i;
+
   for (i = 0; i < 4; i++) { //Length of players in game
+    console.log('Rebuilding deck....');
+    console.log(playCard.players[i].cards);
+    playCard.players[i].cards.splice(0, playCard.players[i].cards.length);
+    console.log(playCard.players[i].cards);
     for (var z = 0; z < 7; z++) {//Run this 7 times for players decks
       newCard = drawCard();
       playCard.players[i].cards.splice(0, 0, {number: newCard[0],color: newCard[1]});
     }
+    console.log(playCard.players[i].cards);
   }
   //Also random card on table...
   playCard.table.splice(0, 0, {number: newCard[0],color: newCard[1]});

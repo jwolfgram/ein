@@ -7,16 +7,22 @@ fourCard = document.getElementById('player-four'),
 tableCard = document.getElementById('playing-card'),
 game,
 player,
+cardSelect,
 socket = io();
 
 function newBanner(msg) {
   var oldBanner = document.getElementsByClassName('banner'),
+  topLevel = document.getElementById('table-top'),
+  oldOverlay = document.getElementsByClassName('overlay'),
   makeOverlay,
   overlayTag,
   overlayText;
 
   while (oldBanner[0]) {
     oldBanner[0].parentNode.removeChild(oldBanner[0]);
+  }
+  while (oldOverlay[0]) {
+    oldOverlay[0].parentNode.removeChild(oldOverlay[0]);
   }
   makeOverlay = document.createElement('div'); //Makeing the div
   makeOverlay.setAttribute("class", "banner"); //add class to this overlay div
@@ -28,14 +34,38 @@ function newBanner(msg) {
   makeOverlay.appendChild(overlayTag);
 }
 
-  function selectCard(e) {
-    if (e.target !== e.currentTarget) {
-      if (e.target.nodeName === 'P') {
-        cardSelect = e.target.parentElement;
-      }
-      else {
-        cardSelect = e.target;
-      }
+function newOverlay(msg) {
+  var oldBanner = document.getElementsByClassName('banner'),
+  topLevel = document.getElementById('table-top'),
+  oldOverlay = document.getElementsByClassName('overlay'),
+  makeOverlay,
+  overlayTag,
+  overlayText;
+
+  while (oldBanner[0]) {
+    oldBanner[0].parentNode.removeChild(oldBanner[0]);
+  }
+  while (oldOverlay[0]) {
+    oldOverlay[0].parentNode.removeChild(oldOverlay[0]);
+  }
+  makeOverlay = document.createElement('div'); //Makeing the div
+  makeOverlay.setAttribute("class", "overlay"); //add class to this overlay div
+  topLevel.appendChild(makeOverlay); //Appending dark overlay on table
+  overlayTag = document.createElement('h2');
+  overlayText = document.createTextNode(msg);
+  overlayTag.appendChild(overlayText);
+  overlayTag.setAttribute("style", "color: rgb(255,255,255);position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);");
+  makeOverlay.appendChild(overlayTag);
+}
+
+function selectCard(e) {
+  if (e.target !== e.currentTarget) {
+    if (e.target.nodeName === 'P') {
+      cardSelect = e.target.parentElement;
+    }
+    else {
+      cardSelect = e.target;
+    }
   //Check all cards to make sure we do not already have a checkmark on them.
   var checkMark = document.getElementsByClassName('selected-card');
   while (checkMark[0]) {
@@ -56,46 +86,32 @@ playerHand.addEventListener("click", selectCard, false); //Adding event listener
 submitBtn.addEventListener('click', function(){
   console.log('Got it.play-card' + cardSelect);
   var number = cardSelect.textContent,
-  oldBanner = document.getElementsByClassName('banner'),
-  topLevel = document.getElementById('table-top'),
-  turnPlayed,
-  makeOverlay,
-  overlayTag,
-  overlayText,
   color;
 
   if (cardSelect.classList.contains('blue-card')) {
-    console.log('Emitting card: ' + number + ' blue');
     color = 'blue';
   }
   if (cardSelect.classList.contains('yellow-card')) {
-    console.log('Emitting card: ' + number + ' yellow');
     color = 'yellow';
   }
   if (cardSelect.classList.contains('green-card')) {
-    console.log('Emitting card: ' + number + ' green');
     color = 'green';
   }
   if (cardSelect.classList.contains('red-card')) {
-    console.log('Emitting card: ' + number + ' red');
     color = 'red';
   }
   tableNumber = tableCard.getElementsByTagName('p')[0].textContent;
   /*Get color of table card as well */
   if (tableCard.classList.contains('blue-card')) {
-    console.log('Emitting card: ' + number + ' blue');
     tableColor = 'blue';
   }
   if (tableCard.classList.contains('yellow-card')) {
-    console.log('Emitting card: ' + number + ' yellow');
     tableColor = 'yellow';
   }
   if (tableCard.classList.contains('green-card')) {
-    console.log('Emitting card: ' + number + ' green');
     tableColor = 'green';
   }
   if (tableCard.classList.contains('red-card')) {
-    console.log('Emitting card: ' + number + ' red');
     tableColor = 'red';
   }
 
@@ -175,10 +191,6 @@ socket.on('status', function (data) { //When we get a new status, such as the pl
   overlayTag,
   overlayText;
 
-  while (oldOverlay[0]) {
-    oldOverlay[0].parentNode.removeChild(oldOverlay[0]);
-  }
-
   console.log(socketID);
 
   switch (data) {
@@ -189,66 +201,26 @@ socket.on('status', function (data) { //When we get a new status, such as the pl
     break;
     case 'Waiting for Players':
     //When we are waiting for other players to join the game
-    makeOverlay = document.createElement('div'); //Makeing the div
-    makeOverlay.setAttribute("class", "overlay"); //add class to this overlay div
-    topLevel.appendChild(makeOverlay); //Appending dark overlay on table
-    overlayTag = document.createElement('h2');
-    overlayText = document.createTextNode('Waiting for other players to join the game...');
-    overlayTag.appendChild(overlayText);
-    overlayTag.setAttribute("style", "color: rgb(255,255,255);position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);");
+    newOverlay('Waiting for other players to join the game...');
+    var overlay = document.getElementsByClassName('overlay')[0];
     var loadingCard = document.createElement('div');
     loadingCard.setAttribute("class", "loading-card");
-    makeOverlay.appendChild(overlayTag);
-    makeOverlay.appendChild(loadingCard);
+    overlay.appendChild(loadingCard);
     console.log('Got status in switch for waiting for players');
     break;
     case 'Game in Session':
-    //Status for game starting, have a little animation with party streamers
-    makeOverlay = document.createElement('div'); //Makeing the div
-    makeOverlay.setAttribute("class", "overlay"); //add class to this overlay div
-    topLevel.appendChild(makeOverlay); //Appending dark overlay on table
-    overlayTag = document.createElement('h2');
-    overlayText = document.createTextNode('The game has started!!! We need party streamers!!!');
-    overlayTag.appendChild(overlayText);
-    overlayTag.setAttribute("style", "color: rgb(255,255,255);position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);");
-    makeOverlay.appendChild(overlayTag);
-    console.log('Got status in switch for Game in session');
+      //Status for game starting, have a little animation with party streamers
+      newOverlay('The game has started!!! We need party streamers!!!');
     break;
     case 'You Won':
-    makeOverlay = document.createElement('div'); //Makeing the div
-    makeOverlay.setAttribute("class", "overlay"); //add class to this overlay div
-    topLevel.appendChild(makeOverlay); //Appending dark overlay on table
-    overlayTag = document.createElement('h2');
-    overlayText = document.createTextNode('Congratulations you won!');
-    overlayTag.appendChild(overlayText);
-    overlayTag.setAttribute("style", "color: rgb(255,255,255);position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);");
-    makeOverlay.appendChild(overlayTag);
+      newOverlay('Congratulations you won!');
     break;
     case 'You Lost':
-    makeOverlay = document.createElement('div'); //Makeing the div
-    makeOverlay.setAttribute("class", "overlay"); //add class to this overlay div
-    topLevel.appendChild(makeOverlay); //Appending dark overlay on table
-    overlayTag = document.createElement('h2');
-    overlayText = document.createTextNode('Game Over! You Lost...');
-    overlayTag.appendChild(overlayText);
-    overlayTag.setAttribute("style", "color: rgb(255,255,255);position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);");
-    makeOverlay.appendChild(overlayTag);
-    console.log('We got the status you have lost :-(');
-      break;
-      default:
-    //When its not my ID and not a general game status, we assume its someone else turn,, waiting for other players to take their turn
-    makeOverlay = document.createElement('div'); //Makeing the div
-    makeOverlay.setAttribute("class", "overlay"); //add class to this overlay div
-    topLevel.appendChild(makeOverlay); //Appending dark overlay on table
-    overlayTag = document.createElement('h2');
-    overlayText = document.createTextNode('Someone is taking their turn... Please wait...');
-    overlayTag.appendChild(overlayText);
-    overlayTag.setAttribute("style", "color: rgb(255,255,255);position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);");
-    makeOverlay.appendChild(overlayTag);
-    console.log('Got status in switch for waiting for players');
-    console.log('Got status in switch for something... guess its not my turn :-(');
-      break;
-    }
-  });
-
-
+      newOverlay('Game Over! You Lost...');
+    break;
+    default:
+      //When its not my ID and not a general game status, we assume its someone else turn,, waiting for other players to take their turn
+      newOverlay('Someone is taking their turn... Please wait...');
+    break;
+  }
+});
