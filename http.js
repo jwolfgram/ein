@@ -56,32 +56,9 @@ function drawCard() {
 function drawDecks() {
   //Function which will remove the last games contents
   var newCard,
-  i,
-  playCard = {
-    game: [{session:'Waiting for Players', turn: 0}],
-    table: [],
-    players: [
-    {
-      id: 99,
-      cards: []
-    },
-    {
-      id: 99,
-      cards: []
-    },
-    {
-      id: 99,
-      cards: []
-    },
-    {
-      id: 99,
-      cards: []
-    }
-    ]
-  };
-
+  i;
   for (i = 0; i < 4; i++) { //Length of players in game
-    for (var z = 0; z < 1; z++) {//Run this 7 times for players decks
+    for (var z = 0; z < 7; z++) {//Run this 7 times for players decks
       newCard = drawCard();
       playCard.players[i].cards.splice(0, 0, {number: newCard[0],color: newCard[1]});
     }
