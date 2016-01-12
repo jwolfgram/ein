@@ -159,11 +159,13 @@ socket.on('table', function (data) { //When server sends current card on table, 
 });
 
 socket.on('status', function (data) { //When we get a new status, such as the playerid (if playerID matches client then announce to player its their turn)
-  console.log('Status / Whose turn it is:' + data);
+  console.log('Status / Whose turn it is: ' + data);
   console.log('My id is: ' + socket.id);
+
   var topLevel = document.getElementById('table-top'),
   oldOverlay = document.getElementsByClassName('overlay'),
   oldBanner = document.getElementsByClassName('banner'),
+  socketID = '/#' + socket.id,
   makeOverlay,
   overlayTag,
   overlayText;
@@ -176,9 +178,12 @@ socket.on('status', function (data) { //When we get a new status, such as the pl
     oldBanner[0].parentNode.removeChild(oldBanner[0]);
   }
 
+  console.log(socketID);
+
   switch (data) {
-  case socket.id:
+  case socketID:
     //When it is my turn, then...
+    socketID = data;
     console.log('Got status in switch for it being my turn.');
     makeOverlay = document.createElement('div'); //Makeing the div
     makeOverlay.setAttribute("class", "banner"); //add class to this overlay div

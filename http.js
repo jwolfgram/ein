@@ -2,7 +2,11 @@ var express = require('express'),
 app = express(),
 port = '8080',
 http = require('http').Server(app),
-io = require('socket.io')(http);
+io = require('socket.io')(http),
+mongoose = require('mongoose'),
+db = mongoose.connection;
+
+mongoose.connect('mongodb://localhost/eins');
 
 var playCard = {
   game: [{session:'Waiting for Players', turn: 0}],
@@ -51,13 +55,33 @@ function drawCard() {
 
 function drawDecks() {
   //Function which will remove the last games contents
-  var newCard;
-  for (var i = 0; i < 4; i++) { //Length of players in game
-    while (playCard.players[i].cards.length > 0) {
-      playCard.players[i].cards.removeChild(playCard.players[i].cards.lastChild);
+  var newCard,
+  i,
+  playCard = {
+    game: [{session:'Waiting for Players', turn: 0}],
+    table: [],
+    players: [
+    {
+      id: 99,
+      cards: []
+    },
+    {
+      id: 99,
+      cards: []
+    },
+    {
+      id: 99,
+      cards: []
+    },
+    {
+      id: 99,
+      cards: []
     }
+    ]
+  };
 
-    for (var z = 0; z < 7; z++) {//Run this 7 times for players decks
+  for (i = 0; i < 4; i++) { //Length of players in game
+    for (var z = 0; z < 1; z++) {//Run this 7 times for players decks
       newCard = drawCard();
       playCard.players[i].cards.splice(0, 0, {number: newCard[0],color: newCard[1]});
     }
@@ -105,9 +129,7 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
     var turn = playCard.game[0].turn;  //define the turn we are on to associate socket.id
     var playerTurn = playCard.players[turn].id; // get player turn socket.id
     if (socket.id === playerTurn) { //verify incoming data is only from player with their turn.
-      console.log('1. Player Valid');
       if (data === 'Draw Card') { //Cool, add a card to players deck....
-        console.log('2. Draw Card');
         var deckCount = playCard.players[turn].cards.length - 1,
         newCard = drawCard(); //Array [0] is the number and [1] is the color
         playCard.players[turn].cards.push({number: newCard[0],color: newCard[1]});
@@ -119,9 +141,7 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
         console.log('Got a play from: ' + socket.id + ' for the data: ' + data[0] + ' and ' + data[1]); //data0 is the number on card and data1 is the color
         for (i = 0; i <= ((playCard.players[turn].cards.length) - 1); i++) { //Counting cards, running loop for length of cards in players deck
           var breakOut = 0;
-          console.log('3. Going through a card');
           if (playCard.players[turn].cards[i].number === data[0] && playCard.players[turn].cards[i].color === data[1]) { //Checking if card is valid in players deck
-            console.log('4. Looks like card is a card in players deck....');
             if (data[0] === playCard.table[0].number || data[1] === playCard.table[0].color) { //Checking if card is valid for the table play
               console.log('5. Also looks good on the table');
               playCard.table[0].number = data[0];
@@ -147,7 +167,6 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
                 console.log('We have a winner!!!');
               }
               else {
-                console.log('6. Not winner yet, but sending table and status to players for next round');
                 turn = playCard.game[0].turn;
                 playerTurn = playCard.players[turn].id;
                 io.emit('status', playerTurn); // If this then resend data to clients saying whose turn it is to active eventlistener to stop incorrect players playing
@@ -155,15 +174,27 @@ io.on('connection', function (socket) { //'connection' only runs on the client c
               }
             }
           }
-        if (breakOut === 1) {
-          break;
-        }
+          if (breakOut === 1) {
+            break;
+          }
         }
       }
     }
     console.log('Player cards in deck:: ' + playCard.players[turn].cards.length);
-    console.log(playCard);
-    console.log('=============');
+  });
+});
+
+/*Data for database to recover players scores*/
+
+app.get('/data', function (req, res) {
+  var schema = mongoose.Schema({
+    name: String,
+    score: String
+    });
+  var score = mongoose.model('eins', schema);
+  //new score({ name: 'Tom', score: '10'  }).save();
+  score.find({}, function (err, docs) {
+    res.send(docs);
   });
 });
 
