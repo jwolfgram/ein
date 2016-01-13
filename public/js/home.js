@@ -35,32 +35,27 @@ tips.addEventListener('click', function(){
   tips.setAttribute('class', 'active');
 }, false);
 
-//Google Maps
 function initialize() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(drawMap);
   }
   function drawMap(pos) {
     var geo = pos.coords;
-    console.log(pos.coords);
     var myLatlng = new google.maps.LatLng(geo.latitude, geo.longitude);
-    var mapCanvas = document.getElementById('map');
-    var mapOptions = {
-      center: new google.maps.LatLng(33.6839, -117.7946),
-      zoom: 11,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      scrollwheel: false
-    };
-    var map = new google.maps.Map(mapCanvas, mapOptions);
-    new google.maps.Marker({ //Literally all we need to do to add more markers is repeat lines 56 - 60
+    map = new google.maps.Map(document.getElementById('map'), {
+          center: myLatlng,
+          zoom: 11,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          scrollwheel: false
+        });
+    //var map = new google.maps.Map(mapCanvas, mapOptions);
+    new google.maps.Marker({ //Add a marker for current location
       position: myLatlng,
       map: map,
       title: 'Hello World!'
     });
   }
 }
-
-google.maps.event.addDomListener(window, 'load', initialize);
 
 //Get table data for the scores from database
 function getData(url) {
@@ -90,3 +85,5 @@ function scoreBoard(data) {
     table.appendChild(makeTr);
   }
 }
+
+google.maps.event.addDomListener(window, 'load', initialize);
