@@ -1,9 +1,11 @@
 var express = require('express'),
 app = express(),
 port = '8080',
+rounds = 0,
 http = require('http').Server(app),
 io = require('socket.io')(http),
 mongoose = require('mongoose'),
+bodyParser = require('body-parser'),
 db = mongoose.connection;
 
 mongoose.connect('mongodb://localhost/eins');
@@ -125,6 +127,7 @@ io.on('connection', function (socket) {
                 playCard.game[0].turn++;
                 console.log('Incremented a turn: ' + playCard.game[0].turn);
               } else {
+                rounds++;
                 console.log('Reset turn counter to zero.');
                 playCard.game[0].turn = 0;
               }
@@ -168,6 +171,13 @@ app.get('/data', function (req, res) {
   score.find({}, function (err, docs) {
     res.send(docs);
   });
+});
+
+app.post('/data-submit', bodyParser.json(), function (req, res) {
+  console.log(req.body[0]);
+  console.log(rounds);
+  new score({ name: req.body[0], score: rounds  }).save();
+  rounds = 0;
 });
 
 http.listen(port, function(){

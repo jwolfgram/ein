@@ -5,7 +5,6 @@ twoCard = document.getElementById('player-two'),
 threeCard = document.getElementById('player-three'),
 fourCard = document.getElementById('player-four'),
 tableCard = document.getElementById('playing-card'),
-scoreBtn = document.getElementById('score-button'),
 game,
 player,
 cardSelect,
@@ -204,7 +203,6 @@ socket.on('status', function (data) {
       home = document.createElement('button');
       homeA = document.createElement('a');
       submitScore.setAttribute('class', 'btn btn-success center-block');
-      submitScore.setAttribute('id', 'score-button');
       home.setAttribute('class', 'btn btn-danger center-block');
       winnerName.setAttribute("class", "form-control winner-input");
       winnerName.setAttribute("placeholder", "Enter your name here!!!");
@@ -217,6 +215,15 @@ socket.on('status', function (data) {
       overlay.appendChild(winnerName);
       overlay.appendChild(submitScore);
       overlay.appendChild(homeA);
+      submitScore.addEventListener('click', function(){
+        var xhr = new XMLHttpRequest();
+        var value = document.getElementsByTagName('input')[0].value;
+        var name = [value, 'Name'];
+        xhr.open("POST", "/data-submit", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        formSend = JSON.stringify(name);
+        xhr.send(formSend);
+      }, false);
     break;
     case 'You Lost':
       newOverlay('Game Over! You Lost...');
@@ -236,6 +243,3 @@ socket.on('status', function (data) {
   }
 });
 
-scoreBtn.addEventListener('click', function(){
-  console.log('Got the score!');
-}, false);
