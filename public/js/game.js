@@ -223,6 +223,11 @@ socket.on('status', function (data) {
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         formSend = JSON.stringify(name);
         xhr.send(formSend);
+        newOverlay('Score Submitted!');
+        window.setTimeout(function() {
+          window.location = "/";
+        }, 1500);
+
       }, false);
     break;
     case 'You Lost':

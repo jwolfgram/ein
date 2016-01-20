@@ -35,7 +35,9 @@ var playCard = {
 
 function drawCard() {
   var ranNumber = Math.floor(Math.random() * 9) + 1,
-  ranColor = Math.floor(Math.random() * 4) + 1, result;
+  ranColor = Math.floor(Math.random() * 4) + 1,
+  result;
+
   switch (ranColor) {
     case 1: //Color Blue
     result = [ranNumber.toString(),'blue'];
@@ -72,8 +74,6 @@ function drawDecks() {
 
 drawDecks();
 
-app.use('/', express.static('public'));
-
 io.on('connection', function (socket) {
   var i;
   console.log('It appears someone activated the web socket (new user): ' + socket.id);
@@ -81,14 +81,14 @@ io.on('connection', function (socket) {
   if (playCard.game[0].session === 'Waiting for Players') {
     for (i = 0; i < playCard.players.length; i++) {
       if (i === 3) {
-        var turn = playCard.game[0].turn;
-        playCard.game[0].session = 'Game in Session';
         io.emit('status', 'Game in Session');
+        var turn = playCard.game[0].turn;
         setTimeout(function(){
           io.emit('table', playCard.table[0]);
           io.emit('status', playCard.players[turn].id);
           console.log('The game has started and its ' + playCard.players[turn].id + ' turn.');
-        }.bind(undefined, 10), 3000);
+        }.bind(undefined, 10), 1000);
+        playCard.game[0].session = 'Game in Session';
       }
       if (playCard.players[i].id === 99) {
         playCard.players[i].id = socket.id;
@@ -179,6 +179,8 @@ app.post('/data-submit', bodyParser.json(), function (req, res) {
   new score({ name: req.body[0], score: rounds  }).save();
   rounds = 0;
 });
+
+app.use('/', express.static('public'));
 
 http.listen(port, function(){
   console.log('listening on *:' + port);
