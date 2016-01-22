@@ -1,39 +1,4 @@
-var newBtn = document.getElementById('new-game'),
-map,
-joinBtn = document.getElementById('join-game'),
-overview = document.getElementById('info-overview'),
-howPlay = document.getElementById('info-howtoplay'),
-tips = document.getElementById('info-tips'),
-tabOverview = document.getElementById('tab-overview'),
-tabhowPlay = document.getElementById('tab-howtoplay'),
-tabTips = document.getElementById('tab-tips');
-
-overview.addEventListener('click', function(){
-  tabOverview.setAttribute('class', '');
-  tabhowPlay.setAttribute('class', 'hidden');
-  tabTips.setAttribute('class', 'hidden');
-  overview.setAttribute('class', 'active');
-  howPlay.setAttribute('class', '');
-  tips.setAttribute('class', '');
-}, false);
-
-howPlay.addEventListener('click', function(){
-  tabhowPlay.setAttribute('class', '');
-  tabOverview.setAttribute('class', 'hidden');
-  tabTips.setAttribute('class', 'hidden');
-  overview.setAttribute('class', '');
-  howPlay.setAttribute('class', 'active');
-  tips.setAttribute('class', '');
-}, false);
-
-tips.addEventListener('click', function(){
-  tabTips.setAttribute('class', '');
-  tabhowPlay.setAttribute('class', 'hidden');
-  tabOverview.setAttribute('class', 'hidden');
-  overview.setAttribute('class', '');
-  howPlay.setAttribute('class', '');
-  tips.setAttribute('class', 'active');
-}, false);
+var map;
 
 function initialize() {
   if (navigator.geolocation) {
@@ -45,10 +10,8 @@ function initialize() {
     map = new google.maps.Map(document.getElementById('map'), {
           center: myLatlng,
           zoom: 11,
-          mapTypeId: google.maps.MapTypeId.ROADMAP,
-          scrollwheel: false
+          mapTypeId: google.maps.MapTypeId.ROADMAP
         });
-    //var map = new google.maps.Map(mapCanvas, mapOptions);
     new google.maps.Marker({ //Add a marker for current location
       position: myLatlng,
       map: map,
@@ -85,5 +48,3 @@ function scoreBoard(data) {
     table.appendChild(makeTr);
   }
 }
-
-google.maps.event.addDomListener(window, 'load', initialize);

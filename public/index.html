@@ -28,7 +28,8 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#parallax-one">Home <span class="sr-only">(current)</span></a></li>
-            <li><a href="/game.html">Start Game</a></li>
+            <li data-toggle="modal" data-target="#scores"><a>Top Scores</a></li>
+            <li data-toggle="modal" data-target="#onlinemap"><a>Players on map</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a class="smooth-scroll" href="#parallax-three">About</a></li>
@@ -36,128 +37,116 @@
         </div>
       </div>
     </nav>
-    <div id="top" class="container">
-      <!-- Carousel -->
-      <div class="col-lg-8">
-        <div id="carousel">
-          <div class="slideshow no-padding">
-            <div id="carousel-shirts" class="carousel slide" data-ride="carousel" data-interval="3000">
-              <div class="carousel-inner" role="listbox">
-                <div class="item active ">
-                  <img src="images\home\carousel\slide-1.png" alt="Carousel Photos">
-                </div>
-                <div class="item">
-                  <img src="images\home\carousel\slide-2.png" alt="Carousel Photos">
-                </div>
-              </div>
-            </div>
+    <!-- Modals for scores and maps -->
+    <div class="modal fade" id="scores" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h3 class="modal-title" id="myModalLabel">Top Scores!</h3>
+          </div>
+          <div class="modal-body">
+            <table id="player-scores" class="table">
+              <thead>
+                <tr>
+                  <th>Player</th>
+                  <th>Rounds to Win</th>
+                </tr>
+              </thead>
+              <tbody id="jsMongo">
+              </tbody>
+              <caption>
+                The score for each player is calculated by the number of rounds it took to win a game, lower is better.
+              </caption>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
-      <div id="game-btn" class="col-xs-12 col-sm-12 col-md-4 col-lg-3 col-lg-offset-1">
-        <a href="/game.html"><img class="img-responsive" alt="New Game" src="images/home/play-btn.png"></a>
+    </div>
+
+
+
+    <div class="modal fade" id="onlinemap" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h3 class="modal-title" id="myModalLabel">Top Scores!</h3>
+          </div>
+          <div class="modal-body">
+           <div id="map"></div>
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
       </div>
     </div>
-    <div id="game-info" class="container">
-      <ul class="nav nav-tabs">
-        <li id="info-overview" role="presentation" class="active"><a href="#banner">Overview</a></li>
-        <li id="info-howtoplay" role="presentation"><a>How to play</a></li>
-        <li id="info-tips" role="presentation"><a>Tips and tricks</a></li>
-      </ul>
-      <!-- Tabs on landing page with hidden classes by default -->
-      <div id="tab-overview">
-        <h3>Ein</h3>
-        <p>
-          First of all will be great if you read Ein rules to better understand how to play Ein game
-          The main objective of Ein game is to be the first player to have no cards. You will have to ensure that you clear the cards in your hand before your opponents do. The points you will earn will depend on the number of Ein cards held by your opponents. Determining the dealer will be the first step of the game. This is the point where each player picks the card. The player who gets the card with the highest number is the one that deals. After the cards are shuffled, each player is then dealt seven cards.
 
-          The remaining cards are put face down to form the draw pile. To set the beginning of the discard pile, the top most card on this deck is turned over. The player that is to the left of the designated dealer is the first to play, if the card drawn is not an action card.
 
-          The player has to match the top most card in the discard pile, when it’s his turn to play. The match can be based on number, symbol or color. For example, the player is allowed to put down a blue card or any color seven, if the card is a blue seven. It is also possible for a player to put down a wild card.
+    <div id="top" class="container">
+      <div class="row">
+        <div id="game-overview" class="col-sm-12 semi-white">
+          <h1>Eins</h1>
+          <hr/>
+          <p>
+            First of all will be great if you read Eins rules to better understand how to play Eins game
+            The main objective of Eins game is to be the first player to have no cards. You will have to ensure that you clear the cards in your hand before your opponents do. The points you will earn will depend on the number of Eins cards held by your opponents. Determining the dealer will be the first step of the game. This is the point where each player picks the card. The player who gets the card with the highest number is the one that deals. After the cards are shuffled, each player is then dealt seven cards.
 
-          The player of Ein game and Ein game 2 will have to take one card from the draw pile, if he does not have any matching cards in his or her possession. The player is allowed to play if the card drawn is playable. The turn ends, and the game proceeds in a clockwise fashion round the playing table, if the card picked cannot be played.
+            The remaining cards are put face down to form the draw pile. To set the beginning of the discard pile, the top most card on this deck is turned over. The player that is to the left of the designated dealer is the first to play, if the card drawn is not an action card.
 
-          The player draws a card from the draw pile, in the event he chooses not to play a card from their hand. The card can be put down in that same turn if the card drawn is playable, but the player is not allowed to put down a card in the hand they hold after making a draw from the draw pile.
-        </p>
+            The player has to match the top most card in the discard pile, when it’s his turn to play. The match can be based on number, symbol or color. For example, the player is allowed to put down a blue card or any color seven, if the card is a blue seven. It is also possible for a player to put down a wild card.
+
+            The player of Eins game and Eins game 2 will have to take one card from the draw pile, if he does not have any matching cards in his or her possession. The player is allowed to play if the card drawn is playable. The turn ends, and the game proceeds in a clockwise fashion round the playing table, if the card picked cannot be played.
+
+            The player draws a card from the draw pile, in the event he chooses not to play a card from their hand. The card can be put down in that same turn if the card drawn is playable, but the player is not allowed to put down a card in the hand they hold after making a draw from the draw pile.
+          </p>
+        </div>
       </div>
-      <div id="tab-howtoplay" class="hidden">
-        <h3>Rules:</h3>
-        <ul>
-          <li>Each player will be given seven cards at the start of the game.</li>
-          <li>The game will start with one card facing up on the table.</li>
-          <li>Everyone will get one chance to place a card with either a matching number or color, if they do not have a card they will need to draw a new card until they can play a card on the table.</li>
-          <li>When a player has run out of cards they will win the game.</li>
-        </ul>
-      </div>
-      <div id="tab-tips" class="hidden">
-        <h3>Tips:</h3>
-        <ul>
-          <li>Win</li>
-        </ul>
+      <div class="row">
+        <a id="game-btn" href="/game.html">
+          <div class="center-block">Play Now!</div>
+        </a>
       </div>
     </div>
   </div>
-  <div id="parallax-two">
+  <div id="parallax-three">
     <div class="container">
       <div class="semi-white row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-          <h2>Top Scores!</h2>
-          <table id="player-scores" class="table">
-            <thead>
-              <tr>
-                <th>Player</th>
-                <th>Rounds to Win</th>
-              </tr>
-            </thead>
-            <tbody id="jsMongo">
-            </tbody>
-            <caption>
-              The score for each player is calculated by the number of rounds it took to win a game, lower is better.
-            </caption>
-          </table>
+        <div class="col-xs-12 col-lg-12">
+          <h2>About Us</h2>
+          <p>This site was designed in Irvine, CA and is based off the Uno card game. Using web development tools such as the MEAN development stack, and socket.io we were able to create a modern website that has the capability of playing a game with real time updating from the back-end node.js server. If you have any questions, concerns or advice on how to make this site better you are more then welcome to send us a message. We are looking forward to your input and hope you enjoy the game!</p>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-          <h2>Here are all the players on the map!</h2>
-          <div id="map"></div>
-          <div></div
-          </div>
+        <div id="footer-break" class="col-xs-12 col-lg-12"></div>
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          <p id="contact-us">Contact Us</p>
+          <i class="fa fa-tumblr-square fa-2x"></i>
+          <i class="fa fa-twitter-square fa-2x"></i>
+          <i class="fa fa-facebook-square fa-2x"></i>
+          <i class="fa fa-google-plus-square fa-2x"></i>
         </div>
-      </div>
-    </div>
-    <div id="parallax-three">
-      <div class="container">
-        <div class="semi-white row">
-          <div class="col-xs-12 col-lg-12">
-            <h2>About Us</h2>
-            <p>This site was designed in Irvine, CA and is based off the Uno card game. Using web development tools such as the MEAN development stack, and socket.io we were able to create a modern website that has the capability of playing a game with real time updating form the back-end node.js server. If you have any questions, concerns or advice on how to make this site better you are more then welcome to send us a message below. We are looking forward to your input and hope you enjoy the game!</p>
-          </div>
-          <div id="footer-break" class="col-xs-12 col-lg-12"></div>
-          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-            <p id="contact-us">Contact Us</p>
-            <i class="fa fa-tumblr-square fa-2x"></i>
-            <i class="fa fa-twitter-square fa-2x"></i>
-            <i class="fa fa-facebook-square fa-2x"></i>
-            <i class="fa fa-google-plus-square fa-2x"></i>
-          </div>
-          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-            <img class="img-responsive center-block" alt="Logo" src="images\home\logo.png">
-          </div>
-          <div class="col-xs-12 col-sm-4 col-md-offset-1 col-md-3 col-lg-offset-1 col-lg-3">
-            <address>
-              <strong>Ein</strong><br>
-              1705 Games Lane<br>
-              Suite: 55<br>
-              Irvine, CA 92613<br>
-              <abbr title="Phone">P:</abbr> (999) 999-9999
-            </address>
-          </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          <img class="img-responsive center-block" alt="Logo" src="images\home\logo.png">
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-offset-1 col-md-3 col-lg-offset-1 col-lg-3">
+          <address>
+            <strong>Ein</strong><br>
+            1705 Games Lane<br>
+            Suite: 55<br>
+            Irvine, CA 92613<br>
+            <abbr title="Phone">P:</abbr> (999) 999-9999
+          </address>
         </div>
       </div>
     </div>
-    <!-- Added javascript scripts -->
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script src="js/home.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSU16C1y5gPzlymicqKYfDgtLXYM0zqTM&callback=initialize" async defer></script>
-  </body>
-  </html>
+  </div>
+  <!-- Added javascript scripts -->
+  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script src="js/home.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSU16C1y5gPzlymicqKYfDgtLXYM0zqTM&callback=initialize" async defer></script>
+</body>
+</html>
