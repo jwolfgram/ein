@@ -1,6 +1,8 @@
-var map;
+var map,
+mapModal = document.getElementById('playersOnMap');
 
 function initialize() {
+  console.log('ewa;lkfn;wef');
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(drawMap);
   }
@@ -28,6 +30,7 @@ function getData(url) {
   return JSON.parse(xhr.responseText);
 }
 
+mapModal.addEventListener("click", initialize, false);
 
 var xhr = getData('/data');
 scoreBoard(xhr);

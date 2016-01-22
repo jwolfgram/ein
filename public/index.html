@@ -29,7 +29,7 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="#parallax-one">Home <span class="sr-only">(current)</span></a></li>
             <li data-toggle="modal" data-target="#scores"><a>Top Scores</a></li>
-            <li data-toggle="modal" data-target="#onlinemap"><a>Players on map</a></li>
+            <li id="playersOnMap" data-toggle="modal" data-target="#onlinemap"><a>Players on map</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a class="smooth-scroll" href="#parallax-three">About</a></li>
@@ -66,9 +66,6 @@
         </div>
       </div>
     </div>
-
-
-
     <div class="modal fade" id="onlinemap" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -85,8 +82,6 @@
         </div>
       </div>
     </div>
-
-
     <div id="top" class="container">
       <div class="row">
         <div id="game-overview" class="col-sm-12 semi-white">
@@ -144,9 +139,9 @@
     </div>
   </div>
   <!-- Added javascript scripts -->
-  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script src="http://code.jquery.com/jquery-2.1.4.min.js" async></script>
   <script src="js/home.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSU16C1y5gPzlymicqKYfDgtLXYM0zqTM&callback=initialize" async defer></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>
 </html>
