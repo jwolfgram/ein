@@ -38,7 +38,7 @@ tbody > tr:nth-child(even) {
   box-shadow: inset 0 0 1em #111;
 }
 
-#game-btn > div {
+#game-btn > span {
   font-size: 100px;
   background-color: rgb(255,0,0);
   height: 150px;
@@ -46,11 +46,14 @@ tbody > tr:nth-child(even) {
   border-radius: 10px;
   text-align:center;
   font-weight: 300;
+  margin: auto auto;
 }
 
 #game-btn {
+  height: 150px;
+  width: 425px;
   text-decoration: none;
-  color: #000000;
+  color: #FFF;
 }
 
 #player-scores {

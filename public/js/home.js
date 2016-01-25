@@ -2,13 +2,12 @@ var map,
 mapModal = document.getElementById('playersOnMap');
 
 function initialize() {
-  console.log('ewa;lkfn;wef');
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(drawMap);
   }
   function drawMap(pos) {
     var geo = pos.coords;
-    var myLatlng = new google.maps.LatLng(geo.latitude, geo.longitude);
+    myLatlng = new google.maps.LatLng(geo.latitude, geo.longitude);
     map = new google.maps.Map(document.getElementById('map'), {
           center: myLatlng,
           zoom: 11,
@@ -30,7 +29,11 @@ function getData(url) {
   return JSON.parse(xhr.responseText);
 }
 
-mapModal.addEventListener("click", initialize, false);
+//mapModal.addEventListener("click", initialize(), false);
+mapModal.addEventListener("click", function() {
+  console.log('MODAL');
+  initialize();
+}, false);
 
 var xhr = getData('/data');
 scoreBoard(xhr);
