@@ -1,4 +1,4 @@
-Demo: http://joewolfgram.com:8080/ <br/>
+Demo: http://joewolfgram.com/eins <br/>
 Eins - A online card game up to four people can play against each other with different screen sessions.
 -Socket.io
 -MongoDB
