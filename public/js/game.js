@@ -242,6 +242,18 @@ socket.on('status', function (data) {
       homeA.appendChild(home);
       overlay.appendChild(homeA);
     break;
+    case 'Player Disconnected':
+      newOverlay('Player Disconnected, game over!');
+      home = document.createElement('button');
+      homeA = document.createElement('a');
+      overlay = document.getElementById('overlay-content');
+      homeText = document.createTextNode('Back to home.');
+      home.setAttribute('class', 'btn btn-danger center-block');
+      homeA.setAttribute("href", "/");
+      home.appendChild(homeText);
+      homeA.appendChild(home);
+      overlay.appendChild(homeA);
+    break;
     default:
       newOverlay('Someone is taking their turn... Please wait...');
     break;
