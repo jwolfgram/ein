@@ -60,10 +60,9 @@ function drawCard() {
 function drawDecks() {
   var newCard,
   i;
-
   for (i = 0; i < 4; i++) { //Length of players in game
     playCard.players[i].cards.splice(0, playCard.players[i].cards.length);
-    for (var z = 0; z < 1; z++) {//Run this 7 times for players decks
+    for (var z = 0; z < 7; z++) {//Run this 7 times for players decks
       newCard = drawCard();
       playCard.players[i].cards.splice(0, 0, {number: newCard[0],color: newCard[1]});
     }
@@ -77,6 +76,19 @@ drawDecks();
 io.on('connection', function (socket) {
   var i;
   console.log('It appears someone activated the web socket (new user): ' + socket.id);
+  socket.on('disconnect', function(){
+    console.log('Player disconnected');
+    for (i = 0; i < playCard.players.length; i++) {
+      if (playCard.players[i].id === socket.id) {
+        for (i = 0; i < playCard.players.length; i++) {
+          playCard.players[i].id = 99;
+        }
+        drawDecks();
+        playCard.game[0].session = 'Waiting for Players';
+        io.emit('status', 'Player Disconnected');
+      }
+    }
+  });
   socket.emit('status', playCard.game[0].session);
   if (playCard.game[0].session === 'Waiting for Players') {
     for (i = 0; i < playCard.players.length; i++) {
