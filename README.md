@@ -1,10 +1,10 @@
 Demo: http://joewolfgram.com/eins <br/>
 Eins - An online card game up to four people can play against each other with different screen sessions.
-*Socket.io 1
-*MongoDB 2
-*Javascript 3
-*CSS3 4
-*HTML5 5
+* Socket.io
+* MongoDB
+* Javascript
+* CSS3
+* HTML5
 
 Homepage::
 
