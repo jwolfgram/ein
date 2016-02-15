@@ -1,6 +1,5 @@
 Demo: http://joewolfgram.com/eins <br/>
-####Eins####
-- An online card game up to four people can play against each other with different screen sessions.
+Eins - An online card game up to four people can play against each other with different screen sessions.
 *Socket.io 1
 *MongoDB 2
 *Javascript 3
