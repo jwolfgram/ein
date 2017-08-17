@@ -1,22 +1,20 @@
 var playerHand = document.getElementById('player-hand'),
-submitBtn = document.getElementById('play-btn'),
-drawBtn = document.getElementById('drawcard-btn'),
-twoCard = document.getElementById('player-two'),
-threeCard = document.getElementById('player-three'),
-fourCard = document.getElementById('player-four'),
-tableCard = document.getElementById('playing-card'),
-game,
-player,
-cardSelect,
-socket = io();
+  submitBtn = document.getElementById('play-btn'),
+  drawBtn = document.getElementById('drawcard-btn'),
+  twoCard = document.getElementById('player-two'),
+  tableCard = document.getElementById('playing-card'),
+  game,
+  player,
+  cardSelect,
+  socket = io();
 
 function newBanner(msg) {
   var oldBanner = document.getElementsByClassName('banner'),
-  topLevel = document.getElementById('table-top'),
-  oldOverlay = document.getElementsByClassName('overlay'),
-  bannerOverlay,
-  bannerTag,
-  bannerText;
+    topLevel = document.getElementById('table-top'),
+    oldOverlay = document.getElementsByClassName('overlay'),
+    bannerOverlay,
+    bannerTag,
+    bannerText;
 
   while (oldBanner[0]) {
     oldBanner[0].parentNode.removeChild(oldBanner[0]);
@@ -36,11 +34,11 @@ function newBanner(msg) {
 
 function newOverlay(msg) {
   var oldBanner = document.getElementsByClassName('banner'),
-  topLevel = document.getElementById('table-top'),
-  oldOverlay = document.getElementsByClassName('overlay'),
-  makeOverlay,
-  contentTag,
-  contentText;
+    topLevel = document.getElementById('table-top'),
+    oldOverlay = document.getElementsByClassName('overlay'),
+    makeOverlay,
+    contentTag,
+    contentText;
 
   while (oldBanner[0]) {
     oldBanner[0].parentNode.removeChild(oldBanner[0]);
@@ -64,28 +62,26 @@ function selectCard(e) {
   if (e.target !== e.currentTarget) {
     if (e.target.nodeName === 'P') {
       cardSelect = e.target.parentElement;
-    }
-    else {
+    } else {
       cardSelect = e.target;
     }
-  var checkMark = document.getElementsByClassName('selected-card');
-  while (checkMark[0]) {
-    checkMark[0].parentNode.removeChild(checkMark[0]);
+    var checkMark = document.getElementsByClassName('selected-card');
+    while (checkMark[0]) {
+      checkMark[0].parentNode.removeChild(checkMark[0]);
+    }
+    //When card is clicked, add class that will show a checkmark.
+    var makeCheck = document.createElement('div');
+    makeCheck.setAttribute("class", "selected-card");
+    cardSelect.appendChild(makeCheck);
   }
-  //When card is clicked, add class that will show a checkmark.
-  var makeCheck = document.createElement('div');
-  makeCheck.setAttribute("class", "selected-card");
-  cardSelect.appendChild(makeCheck);
+  e.stopPropagation();
 }
-e.stopPropagation();
-}
-
 
 playerHand.addEventListener("click", selectCard, false);
 
-submitBtn.addEventListener('click', function(){
+submitBtn.addEventListener('click', function() {
   var number = cardSelect.textContent,
-  color;
+    color;
 
   if (cardSelect.classList.contains('blue-card')) {
     color = 'blue';
@@ -121,15 +117,15 @@ submitBtn.addEventListener('click', function(){
   }
 }, false);
 
-drawBtn.addEventListener('click', function(){
+drawBtn.addEventListener('click', function() {
   socket.emit('play', 'Draw Card');
 }, false);
 
-socket.on('connect', function () {
+socket.on('connect', function() {
   console.log('Connected!');
 });
 
-socket.on('cards', function (data) {
+socket.on('cards', function(data) {
   console.log('Player Deck:' + data);
   while (playerHand.hasChildNodes()) {
     playerHand.removeChild(playerHand.lastChild);
@@ -137,12 +133,12 @@ socket.on('cards', function (data) {
   while (twoCard.hasChildNodes()) {
     twoCard.removeChild(twoCard.lastChild);
   }
-  while (threeCard.hasChildNodes()) {
-    threeCard.removeChild(threeCard.lastChild);
-  }
-  while (fourCard.hasChildNodes()) {
-    fourCard.removeChild(fourCard.lastChild);
-  }
+  // while (threeCard.hasChildNodes()) {
+  //   threeCard.removeChild(threeCard.lastChild);
+  // }
+  // while (fourCard.hasChildNodes()) {
+  //   fourCard.removeChild(fourCard.lastChild);
+  // }
   //Get players hand of cards.
   cardCount = data.length;
   console.log(data);
@@ -160,7 +156,7 @@ socket.on('cards', function (data) {
 
 });
 
-socket.on('table', function (data) {
+socket.on('table', function(data) {
   while (tableCard.hasChildNodes()) {
     tableCard.removeChild(tableCard.lastChild);
   }
@@ -171,30 +167,30 @@ socket.on('table', function (data) {
   tableCard.appendChild(tableNum);
 });
 
-socket.on('status', function (data) {
+socket.on('status', function(data) {
   var topLevel = document.getElementById('table-top'),
-  socketID = '/#' + socket.id,
-  makeOverlay,
-  overlayTag,
-  overlay,
-  overlayText,
-  home,
-  homeA;
+    socketID = '/#' + socket.id,
+    makeOverlay,
+    overlayTag,
+    overlay,
+    overlayText,
+    home,
+    homeA;
 
   switch (data) {
     case socketID:
-    newBanner('Its your turn!');
-    break;
+      newBanner('Its your turn!');
+      break;
     case 'Waiting for Players':
-    newOverlay('Waiting for other players to join the game...');
-    overlay = document.getElementById('overlay-content');
-    var loadingCard = document.createElement('div');
-    loadingCard.setAttribute("class", "loading-card");
-    overlay.appendChild(loadingCard);
-    break;
+      newOverlay('Waiting for other players to join the game...');
+      overlay = document.getElementById('overlay-content');
+      var loadingCard = document.createElement('div');
+      loadingCard.setAttribute("class", "loading-card");
+      overlay.appendChild(loadingCard);
+      break;
     case 'Game in Session':
       newOverlay('The game has started!!! We need party streamers!!!');
-    break;
+      break;
     case 'You Won':
       newOverlay('Congratulations you won!');
       overlay = document.getElementById('overlay-content');
@@ -215,7 +211,7 @@ socket.on('status', function (data) {
       overlay.appendChild(winnerName);
       overlay.appendChild(submitScore);
       overlay.appendChild(homeA);
-      submitScore.addEventListener('click', function(){
+      submitScore.addEventListener('click', function() {
         var xhr = new XMLHttpRequest();
         var value = document.getElementsByTagName('input')[0].value;
         var name = [value, 'Name'];
@@ -229,7 +225,7 @@ socket.on('status', function (data) {
         }, 1500);
 
       }, false);
-    break;
+      break;
     case 'You Lost':
       newOverlay('Game Over! You Lost...');
       home = document.createElement('button');
@@ -241,7 +237,7 @@ socket.on('status', function (data) {
       home.appendChild(homeText);
       homeA.appendChild(home);
       overlay.appendChild(homeA);
-    break;
+      break;
     case 'Player Disconnected':
       newOverlay('Player Disconnected, game over!');
       home = document.createElement('button');
@@ -253,10 +249,9 @@ socket.on('status', function (data) {
       home.appendChild(homeText);
       homeA.appendChild(home);
       overlay.appendChild(homeA);
-    break;
+      break;
     default:
       newOverlay('Someone is taking their turn... Please wait...');
-    break;
+      break;
   }
 });
-
