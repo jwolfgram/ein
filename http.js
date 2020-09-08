@@ -4,11 +4,11 @@ var express = require('express'),
   rounds = 0,
   http = require('http').Server(app),
   io = require('socket.io')(http),
-  mongoose = require('mongoose'),
-  bodyParser = require('body-parser'),
-  db = mongoose.connection;
+  // mongoose = require('mongoose'),
+  bodyParser = require('body-parser');
+  // db = mongoose.connection;
 
-mongoose.connect('mongodb://localhost/eins');
+// mongoose.connect('mongodb://localhost/eins');
 
 var playCard = {
   game: [
@@ -177,20 +177,20 @@ io.on('connection', function(socket) {
 });
 
 /*Data for database to recover players scores*/
-var schema = mongoose.Schema({name: String, score: String});
-var score = mongoose.model('eins', schema);
+// var schema = mongoose.Schema({name: String, score: String});
+// var score = mongoose.model('eins', schema);
 
 app.get('/data', function(req, res) {
   //new score({ name: 'Joe', score: '10'  }).save();
-  score.find({}, function(err, docs) {
-    res.send(docs);
-  });
+  // score.find({}, function(err, docs) {
+  //   res.send(docs);
+  // });
 });
 
 app.post('/data-submit', bodyParser.json(), function(req, res) {
   console.log(req.body[0]);
   console.log(rounds);
-  new score({name: req.body[0], score: rounds}).save();
+  // new score({name: req.body[0], score: rounds}).save();
   rounds = 0;
 });
 
