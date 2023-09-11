@@ -169,7 +169,6 @@ socket.on('table', function(data) {
 
 socket.on('status', function(data) {
   var topLevel = document.getElementById('table-top'),
-    socketID = '/#' + socket.id,
     makeOverlay,
     overlayTag,
     overlay,
@@ -178,7 +177,7 @@ socket.on('status', function(data) {
     homeA;
 
   switch (data) {
-    case socketID:
+    case socket.id:
       newBanner('Its your turn!');
       break;
     case 'Waiting for Players':

@@ -181,7 +181,7 @@ var score = mongoose.model('eins', schema);
 
 app.get('/data', function(req, res) {
   //new score({ name: 'Joe', score: '10'  }).save();
-  score.find({}, function(err, docs) {
+  score.find({}).then((docs) => {
     res.send(docs);
   });
 });

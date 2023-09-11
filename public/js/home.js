@@ -21,22 +21,15 @@ function initialize() {
   }
 }
 
-//Get table data for the scores from database
-function getData(url) {
-  var xhr = new XMLHttpRequest(); // a new request
-  xhr.open("GET",url,false);
-  xhr.send(null);
-  return JSON.parse(xhr.responseText);
-}
-
 //mapModal.addEventListener("click", initialize(), false);
 mapModal.addEventListener("click", function() {
   console.log('MODAL');
   initialize();
 }, false);
 
-var xhr = getData('/data');
-scoreBoard(xhr);
+fetch('/data').then((data) => data.json()).then((res) => {
+  scoreBoard(res);
+});
 
 function scoreBoard(data) {
   for (var i = 0; i < data.length || i < 4; i++) {
