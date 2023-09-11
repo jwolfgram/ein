@@ -1,6 +1,6 @@
 var express = require('express'),
   app = express(),
-  port = '8080',
+  port = process.env.PORT || '8080',
   rounds = 0,
   http = require('http').Server(app),
   io = require('socket.io')(http),
@@ -8,7 +8,7 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   db = mongoose.connection;
 
-mongoose.connect('mongodb://localhost/eins');
+mongoose.connect('mongodb://127.0.0.1/eins');
 
 var playCard = {
   game: [
