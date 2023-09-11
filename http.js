@@ -5,7 +5,6 @@ var express = require('express'),
   http = require('http').Server(app),
   io = require('socket.io')(http),
   mongoose = require('mongoose'),
-  bodyParser = require('body-parser'),
   db = mongoose.connection;
 
 mongoose.connect('mongodb://127.0.0.1/eins');
@@ -187,7 +186,7 @@ app.get('/data', function(req, res) {
   });
 });
 
-app.post('/data-submit', bodyParser.json(), function(req, res) {
+app.post('/data-submit', express.json(), function(req, res) {
   console.log(req.body[0]);
   console.log(rounds);
   new score({name: req.body[0], score: rounds}).save();
