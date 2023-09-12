@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "Eins",
       script: "./http.js",
-      instances: 2,
+      instances: 1,
       max_memory_restart: "300M",
 
       // Logging
@@ -12,12 +12,12 @@ module.exports = {
       merge_logs: true,
       log_date_format: "DD-MM HH:mm:ss Z",
       log_type: "json",
+      exec_mode: "fork",
 
       // Env Specific Config
       env_production: {
         NODE_ENV: "production",
         PORT: 8082,
-        exec_mode: "cluster_mode",
       },
       env_development: {
         NODE_ENV: "development",
