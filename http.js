@@ -103,6 +103,7 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function (data) {
     console.log(data)
     console.log('Player disconnected');
+    // wait for 30 seconds and if game is not rejoined with all players, delete game
   });
   let gId;
 
@@ -159,7 +160,6 @@ io.on('connection', function (socket) {
     game[data.gameId].player[data.playerId].id = socket.id;
   })
   socket.on("play", function (data) {
-
     var turn = game[gId].turn;
     if (socket.id === game[gId].players[turn].id) {
       if (data === 'Draw Card') {
@@ -170,7 +170,6 @@ io.on('connection', function (socket) {
       } else {
         console.log('Got a play from: ' + socket.id + ' for the data: ' + data[0] + ' and ' + data[1]);
         for (let i = 0; i <= ((game[gId].players[turn].cards.length) - 1); i++) {
-          var breakOut = 0;
           if (game[gId].players[turn].cards[i].number === data[0] && game[gId].players[turn].cards[i].color === data[1]) {
             if (data[0] === game[gId].table[0].number || data[1] === game[gId].table[0].color) {
               game[gId].table.unshift({
@@ -179,31 +178,22 @@ io.on('connection', function (socket) {
               })
               game[gId].players[turn].cards.splice(i, 1);
               socket.emit('cards', game[gId].players[turn].cards);
-              breakOut = 1;
-              game[gId].turn === 0 ? 1 : 0
               if (game[gId].players[turn].cards.length === 0) {
                 socket.emit('status', 'You Won');
-                socket.broadcast.emit('status', 'You Lost');
-                game[gId].game[0].session = 'Waiting for Players';
-                for (i = 0; i < game[gId].players.length; i++) {
-                  game[gId].players[i].id = 99;
-                }
-                drawDecks();
-                console.log('We have a winner!!!');
+                const playerLost = game[gId].players.find((player) => player.id !== socket.id)
+                playerLost.socket.emit('status', 'You Lost')
+                delete game[gId]
               } else {
-                turn = game[gId].turn;
-                gameBroadcast(game[gId], 'status', game[gId].players[game[gId].turn === 0 ? 1 : 0].id);
+                game[gId].turn = game[gId].turn === 0 ? 1 : 0
+                gameBroadcast(game[gId], 'status', game[gId].players[game[gId].turn].id);
                 gameBroadcast(game[gId], 'table', game[gId].table[0]);
               }
+              break;
             }
-          }
-          if (breakOut === 1) {
-            break;
           }
         }
       }
     }
-    //console.log('Player cards in deck:: ' + playCard.players[turn].cards.length);
   });
 });
 
@@ -218,8 +208,6 @@ app.get('/data', function (req, res) {
 });
 
 app.post('/data-submit', express.json(), function (req, res) {
-  console.log(req.body[0]);
-  console.log(rounds);
   new score({ name: req.body[0], score: rounds }).save();
   rounds = 0;
 });

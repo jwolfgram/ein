@@ -128,6 +128,7 @@ drawBtn.addEventListener('click', function() {
 }, false);
 
 socket.on('connect', function() {
+  console.log(socket.id)
   const gameId = localStorage.getItem('gameId')
   const playerId = localStorage.getItem('playerId')
   if ( gameId && playerId ) {
