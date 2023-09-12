@@ -7,194 +7,213 @@ var express = require('express'),
   mongoose = require('mongoose'),
   db = mongoose.connection;
 
+const { v4 } = require('uuid')
+
+
 mongoose.connect('mongodb://127.0.0.1/eins');
 
-var playCard = {
-  game: [
-    {
-      session: 'Waiting for Players',
-      turn: 0
-    }
-  ],
-  table: [],
-  players: [
-    {
-      id: 99,
-      cards: []
-    }, {
-      id: 99,
-      cards: []
-    }, {
-      id: 99,
-      cards: []
-    }, {
-      id: 99,
-      cards: []
-    }
-  ]
+var game = {
+  // game:     {
+  //   session: 'Waiting for Players',
+  //   turn: 0,
+  // table: [],
+  // players: [
+  //   {
+  //     id: 99,
+  //     cards: []
+  //   }, {
+  //     id: 99,
+  //     cards: []
+  //   }, {
+  //     id: 99,
+  //     cards: []
+  //   }, {
+  //     id: 99,
+  //     cards: []
+  //   }
+  // ]
+
 };
+function drawCard(times = 1) {
+  const makeCard = () => {
+    var ranNumber = Math.floor(Math.random() * 9) + 1,
+      ranColor = Math.floor(Math.random() * 4) + 1
 
-function drawCard() {
-  var ranNumber = Math.floor(Math.random() * 9) + 1,
-    ranColor = Math.floor(Math.random() * 4) + 1,
-    result;
-
-  switch (ranColor) {
-    case 1: //Color Blue
-      result = [ranNumber.toString(), 'blue'];
-      return result;
-
-    case 2: //Color Red
-      result = [ranNumber.toString(), 'red'];
-      return result;
-
-    case 3: //Color Green
-      result = [ranNumber.toString(), 'green'];
-      return result;
-
-    case 4: //Color Yellow
-      result = [ranNumber.toString(), 'yellow'];
-      return result;
-  }
-}
-
-function drawDecks() {
-  var newCard,
-    i;
-  for (i = 0; i < 2; i++) { //Length of players in game
-    playCard.players[i].cards.splice(0, playCard.players[i].cards.length);
-    for (var z = 0; z < 7; z++) { //Run this 7 times for players decks
-      newCard = drawCard();
-      playCard.players[i].cards.splice(0, 0, {
-        number: newCard[0],
-        color: newCard[1]
-      });
-    }
-  }
-  playCard.table.splice(0, 0, {
-    number: newCard[0],
-    color: newCard[1]
-  });
-  console.log('Generated players cards and the table card for game to start....');
-}
-
-drawDecks();
-
-io.on('connection', function(socket) {
-  var i;
-  console.log('It appears someone activated the web socket (new user): ' + socket.id);
-  socket.on('disconnect', function() {
-    console.log('Player disconnected');
-    for (i = 0; i < playCard.players.length; i++) {
-      if (playCard.players[i].id === socket.id) {
-        for (i = 0; i < playCard.players.length; i++) {
-          playCard.players[i].id = 99;
+    switch (ranColor) {
+      case 1:  // Blue
+        return {
+          number: ranNumber.toString(),
+          color: 'blue'
         }
-        drawDecks();
-        playCard.game[0].session = 'Waiting for Players';
-        io.emit('status', 'Player Disconnected');
-      }
+
+      case 2: //Color Red
+        return {
+          number: ranNumber.toString(),
+          color: 'red'
+        }
+
+      case 3: //Color Green
+        return {
+          number: ranNumber.toString(),
+          color: 'green'
+        }
+
+      case 4: //Color Yellow
+        return {
+          number: ranNumber.toString(),
+          color: 'yellow'
+        }
     }
-  });
-  socket.emit('status', playCard.game[0].session);
-  if (playCard.game[0].session === 'Waiting for Players') {
-    for (i = 0; i < playCard.players.length; i++) {
-      if (i === 1) { //Two players
-        io.emit('status', 'Game in Session');
-        var turn = playCard.game[0].turn;
-        setTimeout(function() {
-          io.emit('table', playCard.table[0]);
-          io.emit('status', playCard.players[turn].id);
-          console.log('The game has started and its ' + playCard.players[turn].id + ' turn.');
-        }.bind(undefined, 10), 1000);
-        playCard.game[0].session = 'Game in Session';
-      }
-      if (playCard.players[i].id === 99) {
-        playCard.players[i].id = socket.id;
-        console.log('Player ' + socket.id + ' has joined the current game session.');
-        socket.emit('cards', playCard.players[i].cards);
-        break;
-      }
-    }
-  } else {
-    //If you want, we can put people in a que here.... since game is full
-    socket.emit('status', 'Game is full');
   }
-  socket.on("play", function(data) {
-    var turn = playCard.game[0].turn;
-    var playerTurn = playCard.players[turn].id;
-    if (socket.id === playerTurn) {
+  let deck = []
+  for (let i = 0; i < parseInt(times, 10); i++) {
+    deck.push(makeCard())
+  }
+
+  if (deck.length === 1) {
+    return deck[0]
+  }
+  return deck;
+}
+
+function makeGame(game) {
+  let players = []
+  let table = []
+  table.unshift(drawCard());
+
+  console.log('Generated players cards and the table card for game to start....');
+  const gId = v4()
+  game[gId] = {
+    players,
+    session: 'Waiting for Players',
+    turn: 0,
+    table
+  }
+  return gId
+}
+
+const gameBroadcast = (session, key, val) => {
+  session.players.forEach((player) => {
+    player.socket.emit(key, val)
+  })
+}
+
+io.on('connection', function (socket) {
+  console.log('It appears someone activated the web socket (new user): ' + socket.id);
+  socket.on('disconnect', function (data) {
+    console.log(data)
+    console.log('Player disconnected');
+    // wait for 30 seconds and if game is not rejoined with all players, delete game
+  });
+  let gId;
+
+  const gameIterable = Object.entries(game)
+  for (let i = 0; i < gameIterable.length; i++) {
+    for (let z = 0; z < gameIterable[i][1].players.length; z++) {
+      if (gameIterable[i][1].players[z].id  === socket.id) {
+        gameIterable[i][1].players[z].socket = socket;
+        gId = gameIterable[i][0]
+        socket.emit('game', {gameId: gameIterable[i][0], ...gameIterable[i][1].players[z]});
+      }
+      socket.emit('cards', gameIterable[i][1].players[z].cards)
+    }
+  }
+
+  for (const [sessionId, session] of Object.entries(game)) {
+    if (session.players.length < 2) {
+      gId = sessionId;
+      session.players.push({
+        socket,
+        id: socket.id,
+        cards: drawCard(7)
+      })
+    }
+  }
+
+  if (!gId) {
+    gId = makeGame(game)
+    game[gId].players.push({
+      socket,
+      id: socket.id,
+      cards: drawCard(7)
+    })
+  }
+
+  if (game[gId].session === 'Waiting for Players' && game[gId].players.length === 2) {
+    gameBroadcast(game[gId], 'status', 'Game in Session');
+    var turn = game[gId].turn;
+    setTimeout(function() {
+      gameBroadcast(game[gId], 'table', game[gId].table[0]);
+      gameBroadcast(game[gId], 'status', game[gId].players[turn].id);
+      console.log('The game has started and its ' + game[gId].players[turn].id + ' turn.');
+    }.bind(undefined, 10), 1000);
+    game[gId].session = 'Game in Session';
+  }
+  
+  game[gId].players.forEach((player) => {
+    player.socket.emit('cards', player.cards)
+    player.socket.emit('status', 'Game in Session');
+  })
+
+  socket.on('rejoin' , (data) => {
+    game[data.gameId].player[data.playerId].socket = socket;
+    game[data.gameId].player[data.playerId].id = socket.id;
+  })
+  socket.on("play", function (data) {
+    var turn = game[gId].turn;
+    if (socket.id === game[gId].players[turn].id) {
       if (data === 'Draw Card') {
-        var deckCount = playCard.players[turn].cards.length - 1,
+        var deckCount = game[gId].players[turn].cards.length - 1,
           newCard = drawCard();
-        playCard.players[turn].cards.push({number: newCard[0], color: newCard[1]});
-        socket.emit('cards', playCard.players[turn].cards);
+          game[gId].players[turn].cards.push(newCard);
+        socket.emit('cards', game[gId].players[turn].cards);
       } else {
         console.log('Got a play from: ' + socket.id + ' for the data: ' + data[0] + ' and ' + data[1]);
-        for (i = 0; i <= ((playCard.players[turn].cards.length) - 1); i++) {
-          var breakOut = 0;
-          if (playCard.players[turn].cards[i].number === data[0] && playCard.players[turn].cards[i].color === data[1]) {
-            if (data[0] === playCard.table[0].number || data[1] === playCard.table[0].color) {
-              playCard.table[0].number = data[0];
-              playCard.table[0].color = data[1];
-              playCard.players[turn].cards.splice(i, 1);
-              socket.emit('cards', playCard.players[turn].cards);
-              breakOut = 1;
-              if (playCard.game[0].turn < 1) {
-                playCard.game[0].turn++;
-                console.log('Incremented a turn: ' + playCard.game[0].turn);
-              } else {
-                rounds++;
-                console.log('Reset turn counter to zero.');
-                playCard.game[0].turn = 0;
-              }
-              if (playCard.players[turn].cards.length === 0) {
+        for (let i = 0; i <= ((game[gId].players[turn].cards.length) - 1); i++) {
+          if (game[gId].players[turn].cards[i].number === data[0] && game[gId].players[turn].cards[i].color === data[1]) {
+            if (data[0] === game[gId].table[0].number || data[1] === game[gId].table[0].color) {
+              game[gId].table.unshift({
+                number: data[0],
+                color: data[1]
+              })
+              game[gId].players[turn].cards.splice(i, 1);
+              socket.emit('cards', game[gId].players[turn].cards);
+              if (game[gId].players[turn].cards.length === 0) {
                 socket.emit('status', 'You Won');
-                socket.broadcast.emit('status', 'You Lost');
-                playCard.game[0].session = 'Waiting for Players';
-                for (i = 0; i < playCard.players.length; i++) {
-                  playCard.players[i].id = 99;
-                }
-                drawDecks();
-                console.log('We have a winner!!!');
+                const playerLost = game[gId].players.find((player) => player.id !== socket.id)
+                playerLost.socket.emit('status', 'You Lost')
+                delete game[gId]
               } else {
-                turn = playCard.game[0].turn;
-                playerTurn = playCard.players[turn].id;
-                io.emit('status', playerTurn);
-                io.emit('table', playCard.table[0]);
+                game[gId].turn = game[gId].turn === 0 ? 1 : 0
+                gameBroadcast(game[gId], 'status', game[gId].players[game[gId].turn].id);
+                gameBroadcast(game[gId], 'table', game[gId].table[0]);
               }
+              break;
             }
-          }
-          if (breakOut === 1) {
-            break;
           }
         }
       }
     }
-    //console.log('Player cards in deck:: ' + playCard.players[turn].cards.length);
   });
 });
 
 /*Data for database to recover players scores*/
-var schema = mongoose.Schema({name: String, score: String});
+var schema = mongoose.Schema({ name: String, score: String });
 var score = mongoose.model('eins', schema);
 
-app.get('/data', function(req, res) {
-  //new score({ name: 'Joe', score: '10'  }).save();
+app.get('/data', function (req, res) {
   score.find({}).then((docs) => {
     res.send(docs);
   });
 });
 
-app.post('/data-submit', express.json(), function(req, res) {
-  console.log(req.body[0]);
-  console.log(rounds);
-  new score({name: req.body[0], score: rounds}).save();
+app.post('/data-submit', express.json(), function (req, res) {
+  new score({ name: req.body[0], score: rounds }).save();
   rounds = 0;
 });
 
 app.use('/', express.static('public'));
 
-http.listen(port, function() {
+http.listen(port, function () {
   console.log('listening on *:' + port);
 });

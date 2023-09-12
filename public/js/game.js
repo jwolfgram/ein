@@ -77,6 +77,12 @@ function selectCard(e) {
   e.stopPropagation();
 }
 
+let gameId;
+
+function sendEmit(name, data) {
+  socket.emit(name, data)
+}
+
 playerHand.addEventListener("click", selectCard, false);
 
 submitBtn.addEventListener('click', function() {
@@ -111,21 +117,27 @@ submitBtn.addEventListener('click', function() {
   }
 
   if (tableColor === color || tableNumber === number) {
-    socket.emit('play', [number, color]);
+    sendEmit('play', [number, color]);
   } else {
     newBanner('The card is not valid! Please try again...');
   }
 }, false);
 
 drawBtn.addEventListener('click', function() {
-  socket.emit('play', 'Draw Card');
+  sendEmit('play', 'Draw Card');
 }, false);
 
 socket.on('connect', function() {
+  console.log(socket.id)
+  const gameId = localStorage.getItem('gameId')
+  const playerId = localStorage.getItem('playerId')
+  if ( gameId && playerId ) {
+    sendEmit('rejoining', {gameId, playerId})
+  }
   console.log('Connected!');
 });
 
-socket.on('cards', function(data) {
+socket.on('cards', function(data) { // Deal the users deck
   console.log('Player Deck:' + data);
   while (playerHand.hasChildNodes()) {
     playerHand.removeChild(playerHand.lastChild);
@@ -156,7 +168,7 @@ socket.on('cards', function(data) {
 
 });
 
-socket.on('table', function(data) {
+socket.on('table', function(data) { // Deal first card to table
   while (tableCard.hasChildNodes()) {
     tableCard.removeChild(tableCard.lastChild);
   }
@@ -166,6 +178,16 @@ socket.on('table', function(data) {
   tableNum.appendChild(tableText);
   tableCard.appendChild(tableNum);
 });
+
+socket.on('game', function(data) {
+  localStorage.setItem('gameId', data.gameId);
+  localStorage.setItem('playerId', data.id);
+  
+})
+
+socket.on('debug', (data) => {
+  console.log(`DEBUGWS: ${JSON.stringify(data, null, 2)}`)
+})
 
 socket.on('status', function(data) {
   var topLevel = document.getElementById('table-top'),
@@ -187,7 +209,7 @@ socket.on('status', function(data) {
       loadingCard.setAttribute("class", "loading-card");
       overlay.appendChild(loadingCard);
       break;
-    case 'Game in Session':
+    case 'Game in Session': // we need to set gameId here///
       newOverlay('The game has started!!! We need party streamers!!!');
       break;
     case 'You Won':
