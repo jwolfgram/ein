@@ -40,6 +40,7 @@ tbody > tr:nth-child(even) {
 
 #game-btn > span {
   font-size: 100px;
+  padding: 5px 10px;
   background-color: rgb(255,0,0);
   height: 150px;
   width: 425px;
